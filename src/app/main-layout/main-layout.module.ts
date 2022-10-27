@@ -2,6 +2,9 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonModule } from "@angular/material/button";
+
 import { MainLayoutComponent } from "./main-layout.component";
 import { AddNewMatchModule } from "../components/add-new-match/add-new-match.module";
 import { AddNewPlayerModule } from "../components/add-new-player/add-new-player.module";
@@ -21,6 +24,8 @@ import { StandingsModule } from "../components/standings/standings.module";
 		MatchOverviewModule,
 		PlayerOverviewModule,
 		StandingsModule,
+		MatToolbarModule,
+		MatButtonModule,
 	],
 	exports: [MainLayoutComponent],
 })
