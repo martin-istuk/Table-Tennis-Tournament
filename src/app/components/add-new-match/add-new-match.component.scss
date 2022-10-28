@@ -1,15 +1,26 @@
-:host {
-	width: 50%;
-	margin: 0 auto;
-	display: block;
-	form {
+form {
+	.inputGroup {
 		display: grid;
-		button {
-			height: 56px;
+		grid-template-columns: 50% auto auto auto auto auto;
+		gap: 1rem;
+		&>div {
+			display: grid;
+			grid-template-columns: auto;
 		}
-		.passMatchError {
-			color: red;
-			font-weight: bold;
+		p {
+			text-align: center;
 		}
+	}
+	.setScoreBox {
+		width: 50px;
+	}
+	button {
+		height: 56px;
+	}
+	.error {
+		color: red;
+		font-weight: bold;
+		margin-top: 1rem;
+		margin-bottom: 0;
 	}
 }

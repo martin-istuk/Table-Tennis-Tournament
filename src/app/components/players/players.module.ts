@@ -7,10 +7,10 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 
 import { AddNewPlayerModule } from "../add-new-player/add-new-player.module";
-import { StandingsComponent } from "./standings.component";
+import { PlayersComponent } from "./players.component";
 
 @NgModule({
-	declarations: [StandingsComponent],
+	declarations: [PlayersComponent],
 	imports: [
 		CommonModule,
 		RouterModule,
@@ -19,6 +19,6 @@ import { StandingsComponent } from "./standings.component";
 		MatIconModule,
 		MatTableModule,
 	],
-	exports: [StandingsComponent],
+	exports: [PlayersComponent],
 })
-export class StandingsModule {}
+export class PlayersModule {}

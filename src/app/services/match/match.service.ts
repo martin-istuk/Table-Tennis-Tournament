@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 
 import { Match } from "src/app/interfaces/match.model";
 
@@ -13,11 +13,9 @@ export class MatchService {
 			id: "m-001",
 			playerHome: "Elrond",
 			playerAway: "Galadriel",
-			set1: [5, 11],
-			set2: [6, 11],
-			set3: [14, 12],
-			set4: [11, 13],
-			set5: [0, 0],
+			sets: [
+				[5, 11], [6, 11], [14, 12], [11, 13]
+			],
 			score: [1, 3],
 			winner: "Galadriel",
 		},
@@ -25,11 +23,9 @@ export class MatchService {
 			id: "m-002",
 			playerHome: "Galadriel",
 			playerAway: "Gandalf",
-			set1: [0, 11],
-			set2: [0, 11],
-			set3: [15, 13],
-			set4: [14, 12],
-			set5: [1, 11],
+			sets: [
+				[0, 11], [0, 11], [15, 13], [14, 12], [1, 11]
+			],
 			score: [2, 3],
 			winner: "Gandalf",
 		},
@@ -37,11 +33,9 @@ export class MatchService {
 			id: "m-003",
 			playerHome: "Aragorn",
 			playerAway: "Elrond",
-			set1: [11, 9],
-			set2: [12, 10],
-			set3: [11, 1],
-			set4: [0, 0],
-			set5: [0, 0],
+			sets: [
+				[11, 9], [12, 10], [11, 1]
+			],
 			score: [3, 0],
 			winner: "Aragorn",
 		},
@@ -49,11 +43,9 @@ export class MatchService {
 			id: "m-004",
 			playerHome: "Aragorn",
 			playerAway: "Gandalf",
-			set1: [8, 11],
-			set2: [2, 11],
-			set3: [13, 11],
-			set4: [11, 7],
-			set5: [17, 19],
+			sets: [
+				[8, 11], [2, 11], [13, 11], [11, 7], [17, 19]
+			],
 			score: [2, 3],
 			winner: "Gandalf",
 		},
@@ -61,26 +53,50 @@ export class MatchService {
 			id: "m-005",
 			playerHome: "Elrond",
 			playerAway: "Gandalf",
-			set1: [0, 0],
-			set2: [0, 0],
-			set3: [0, 0],
-			set4: [0, 0],
-			set5: [0, 0],
-			score: [0, 0],
+			sets: [
+				[11, 7], [12, 14], [8, 11], [13, 15]
+			],
+			score: [1, 3],
 			winner: "Gandalf",
 		},
 		{
 			id: "m-006",
 			playerHome: "Aragorn",
 			playerAway: "Galadriel",
-			set1: [0, 0],
-			set2: [0, 0],
-			set3: [0, 0],
-			set4: [0, 0],
-			set5: [0, 0],
-			score: [0, 0],
+			sets: [
+				[9, 11], [11, 9], [9, 11], [12, 10], [10, 12]
+			],
+			score: [2, 3],
 			winner: "Galadriel",
 		},
 	]);
-	public matchArray$: Observable<Array<Match>> = this._matchArray$.asObservable();
+	public matchArray$: Observable<Array<Match>> =
+		this._matchArray$.asObservable();
+
+	public addNewMatch(
+		newPlayerHome: string,
+		newPlayerAway: string
+	): Observable<boolean> {
+		const matchAmount: number = this._matchArray$.getValue().length;
+		let newMatchId: string = "m-";
+		if (matchAmount < 10) {
+			newMatchId += "00";
+		} else if (matchAmount < 100) {
+			newMatchId += "0";
+		}
+		newMatchId += matchAmount + 1;
+		this._matchArray$.next(
+			this._matchArray$.getValue().concat([
+				{
+					id: newMatchId,
+					playerHome: newPlayerHome,
+					playerAway: newPlayerAway,
+					sets: [],
+					score: [0, 0],
+					winner: "",
+				} as Match,
+			])
+		);
+		return of(true);
+	}
 }

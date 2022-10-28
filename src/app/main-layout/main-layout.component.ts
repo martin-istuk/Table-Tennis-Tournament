@@ -14,8 +14,8 @@ export class MainLayoutComponent {
 			title: "Matches"
 		},
 		{
-			url: "standings",
-			title: "Standings"
+			url: "players",
+			title: "Players"
 		}
 	];
 }

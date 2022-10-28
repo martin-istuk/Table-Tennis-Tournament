@@ -6,7 +6,7 @@ import { AddNewPlayerComponent } from "./components/add-new-player/add-new-playe
 import { MatchListComponent } from "./components/match-list/match-list.component";
 import { MatchOverviewComponent } from "./components/match-overview/match-overview.component";
 import { PlayerOverviewComponent } from "./components/player-overview/player-overview.component";
-import { StandingsComponent } from "./components/standings/standings.component";
+import { PlayersComponent } from "./components/players/players.component";
 import { MainLayoutComponent } from "./main-layout/main-layout.component";
 
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
 			{ path: "", component: MatchListComponent },
 			{ path: "add-new-match", component: AddNewMatchComponent },
 			{ path: "match-overview/:id", component: MatchOverviewComponent },
-			{ path: "standings", component: StandingsComponent },
+			{ path: "players", component: PlayersComponent },
 			{ path: "add-new-player", component: AddNewPlayerComponent },
 			{ path: "player-overview/:id", component: PlayerOverviewComponent },
 		],

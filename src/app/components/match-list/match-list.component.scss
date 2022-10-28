@@ -13,22 +13,37 @@ table {
 		margin-right: 1rem;
 	}
 	.mat-column-id {
-		width: 15%;
+		width: 20%;
 	}
-	.mat-column-playerHome {
-		width: 25%;
+	.mat-column-match {
+		width: 20%;
+		padding-right: 100px;
 		text-align: right;
 	}
-	.mat-column-score {
-		width: 15%;
-		text-align: center;
-	}
-	.mat-column-playerAway {
-		width: 25%;
-	}
-	.mat-column-editScore {
-		width: 20%;
-		text-align: center;
+	.mat-column-setScores {
+		width: 60%;
+		.scoreBox {
+			display: grid;
+			grid-template-columns: auto auto auto auto auto;
+			gap: 1rem;
+			justify-content: start;
+			padding: 0.5rem 0;
+			.column {
+				display: grid;
+				grid-template-columns: auto;
+				gap: 0.5rem;
+				justify-items: end;
+				min-width: 30px;
+				border-left: 1px solid Grey;
+				p {
+					margin: 0;
+				}
+				.setIndex {
+					color: hsl(0, 0%, 60%);
+					border-bottom: 1px solid Grey;
+				}
+			}
+		}
 	}
 }
 .error {

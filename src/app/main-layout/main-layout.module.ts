@@ -11,7 +11,7 @@ import { AddNewPlayerModule } from "../components/add-new-player/add-new-player.
 import { MatchListModule } from "../components/match-list/match-list.module";
 import { MatchOverviewModule } from "../components/match-overview/match-overview.module";
 import { PlayerOverviewModule } from "../components/player-overview/player-overview.module";
-import { StandingsModule } from "../components/standings/standings.module";
+import { PlayersModule } from "../components/players/players.module";
 
 @NgModule({
 	declarations: [MainLayoutComponent],
@@ -23,7 +23,7 @@ import { StandingsModule } from "../components/standings/standings.module";
 		MatchListModule,
 		MatchOverviewModule,
 		PlayerOverviewModule,
-		StandingsModule,
+		PlayersModule,
 		MatToolbarModule,
 		MatButtonModule,
 	],
