@@ -23,5 +23,5 @@
 
 	<p *ngIf="checkNameMatch()" class="passMatchError">You must select two different players!</p>
 
-	<button [disabled]="addNewMatchForm.invalid" mat-raised-button color="primary" type="button">Submit</button>
+	<button [disabled]="addNewMatchForm.invalid" mat-raised-button color="primary" type="button"><mat-icon matPrefix>add</mat-icon>Submit</button>
 </form>

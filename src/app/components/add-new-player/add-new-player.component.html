@@ -13,5 +13,5 @@
     <mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
 	</mat-form-field>
 
-	<button [disabled]="addNewPlayerForm.invalid" mat-raised-button color="primary" type="button">Submit</button>
+	<button [disabled]="addNewPlayerForm.invalid" (click)="onSubmit($event)" mat-raised-button color="primary" type="button"><mat-icon matPrefix>add</mat-icon>Submit</button>
 </form>
