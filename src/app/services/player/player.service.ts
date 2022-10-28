@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 
+import { BehaviorSubject, Observable } from "rxjs";
+
 import { Player } from "src/app/interfaces/player.model";
 
 @Injectable({
 	providedIn: "root",
 })
 export class PlayerService {
-	public initialPlayerArray: Array<Player> = [
+	private _playerArray$ = new BehaviorSubject<Array<Player>>([
 		{
 			playerId: "p-001",
 			name: "Elrond",
@@ -27,5 +29,7 @@ export class PlayerService {
 			name: "Aragorn",
 			matchIds: ["m-003", "m-004"],
 		},
-	];
+	]);
+
+	public playerArray$: Observable<Array<Player>> = this._playerArray$.asObservable();
 }

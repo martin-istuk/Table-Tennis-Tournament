@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 
+import { Observable } from "rxjs";
+
 import { MatchService } from "src/app/services/match/match.service";
 import { Match } from "src/app/interfaces/match.model";
 
@@ -15,10 +17,11 @@ export class MatchListComponent {
 		"matchId",
 		"playerHome",
 		"score",
-		"playerAway"
+		"playerAway",
+		"editScore"
 	];
 
-	public matchList: Array<Match> = this.matchService.initialMatchArray;
+	public matchList$: Observable<Array<Match>> = this.matchService.matchArray$;
 
-	public toggleAddNewMatch(): void {}
+	public addNewMatch(): void {}
 }

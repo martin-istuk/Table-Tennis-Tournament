@@ -1,4 +1,6 @@
 .addNew {
+	margin: auto;
+	display: block;
 	margin-bottom: 1rem;
 }
 table {
@@ -8,5 +10,28 @@ table {
 	}
 	th {
 		font-weight: bold;
+		margin-right: 1rem;
 	}
+	.mat-column-matchId {
+		width: 15%;
+		text-align: right;
+	}
+	.mat-column-playerHome {
+		width: 25%;
+		text-align: right;
+	}
+	.mat-column-score {
+		width: 15%;
+		text-align: center;
+	}
+	.mat-column-playerAway {
+		width: 25%;
+	}
+	.mat-column-editScore {
+		width: 20%;
+		text-align: center;
+	}
+}
+.error {
+	color: red;
 }

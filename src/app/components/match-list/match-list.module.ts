@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
@@ -12,10 +13,11 @@ import { MatchListComponent } from "./match-list.component";
 	declarations: [MatchListComponent],
 	imports: [
 		CommonModule,
+		RouterModule,
 		AddNewMatchModule,
 		MatButtonModule,
 		MatIconModule,
-		MatTableModule,
+		MatTableModule
 	],
 	exports: [MatchListComponent],
 })

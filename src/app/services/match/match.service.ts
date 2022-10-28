@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 
+import { BehaviorSubject, Observable } from "rxjs";
+
 import { Match } from "src/app/interfaces/match.model";
 
 @Injectable({
 	providedIn: "root",
 })
 export class MatchService {
-	public initialMatchArray: Array<Match> = [
+	private _matchArray$ = new BehaviorSubject<Array<Match>>([
 		{
 			matchId: "m-001",
 			playerHome: "Elrond",
@@ -79,5 +81,6 @@ export class MatchService {
 			score: [0, 0],
 			winner: "Galadriel",
 		},
-	];
+	]);
+	public matchArray$: Observable<Array<Match>> = this._matchArray$.asObservable();
 }
