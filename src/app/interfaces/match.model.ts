@@ -1,7 +1,7 @@
 import { IMatch } from "./match.interface";
 
 export class Match {
-	public matchId: string;
+	public id: string;
 	public playerHome: string;
 	public playerAway: string;
 	public set1: Array<number>;
@@ -13,7 +13,7 @@ export class Match {
 	public winner: string;
 
 	constructor(match: IMatch) {
-		this.matchId = match.matchId;
+		this.id = match.id;
 		this.playerHome = match.playerHome;
 		this.playerAway = match.playerAway;
 		this.set1 = match.set1;

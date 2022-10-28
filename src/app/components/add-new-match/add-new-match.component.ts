@@ -1,8 +1,9 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Observable } from "rxjs";
-import { Player } from "src/app/interfaces/player.model";
 
+import { Observable } from "rxjs";
+
+import { Player } from "src/app/interfaces/player.model";
 import { MatchService } from "src/app/services/match/match.service";
 import { PlayerService } from "src/app/services/player/player.service";
 import { nameMatchValidator } from "src/app/validators/name-match-validator.directive";

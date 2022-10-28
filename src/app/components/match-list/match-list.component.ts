@@ -14,7 +14,7 @@ export class MatchListComponent {
 	constructor(public matchService: MatchService) {}
 
 	public displayedColumns: Array<string> = [
-		"matchId",
+		"id",
 		"playerHome",
 		"score",
 		"playerAway",

@@ -1,7 +1,6 @@
-import { IMatch } from "./match.interface";
-
 export interface IPlayer {
-	playerId: string,
+	id: string;
 	name: string;
 	matchIds: Array<string>;
+	winRate: number;
 }

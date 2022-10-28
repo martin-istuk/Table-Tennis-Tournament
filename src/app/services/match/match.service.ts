@@ -10,7 +10,7 @@ import { Match } from "src/app/interfaces/match.model";
 export class MatchService {
 	private _matchArray$ = new BehaviorSubject<Array<Match>>([
 		{
-			matchId: "m-001",
+			id: "m-001",
 			playerHome: "Elrond",
 			playerAway: "Galadriel",
 			set1: [5, 11],
@@ -22,7 +22,7 @@ export class MatchService {
 			winner: "Galadriel",
 		},
 		{
-			matchId: "m-002",
+			id: "m-002",
 			playerHome: "Galadriel",
 			playerAway: "Gandalf",
 			set1: [0, 11],
@@ -34,7 +34,7 @@ export class MatchService {
 			winner: "Gandalf",
 		},
 		{
-			matchId: "m-003",
+			id: "m-003",
 			playerHome: "Aragorn",
 			playerAway: "Elrond",
 			set1: [11, 9],
@@ -46,7 +46,7 @@ export class MatchService {
 			winner: "Aragorn",
 		},
 		{
-			matchId: "m-004",
+			id: "m-004",
 			playerHome: "Aragorn",
 			playerAway: "Gandalf",
 			set1: [8, 11],
@@ -58,7 +58,7 @@ export class MatchService {
 			winner: "Gandalf",
 		},
 		{
-			matchId: "m-005",
+			id: "m-005",
 			playerHome: "Elrond",
 			playerAway: "Gandalf",
 			set1: [0, 0],
@@ -70,7 +70,7 @@ export class MatchService {
 			winner: "Gandalf",
 		},
 		{
-			matchId: "m-006",
+			id: "m-006",
 			playerHome: "Aragorn",
 			playerAway: "Galadriel",
 			set1: [0, 0],

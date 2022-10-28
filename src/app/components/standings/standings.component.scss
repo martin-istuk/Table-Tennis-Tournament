@@ -1,0 +1,32 @@
+.addNew {
+	margin: auto;
+	display: block;
+	margin-bottom: 1rem;
+}
+table {
+  width: 100%;
+	* {
+		font-size: 1rem;
+	}
+	th {
+		font-weight: bold;
+		margin-right: 1rem;
+	}
+	.mat-column-id {
+		width: 25%;
+	}
+	.mat-column-name {
+		width: 25%;
+	}
+	.mat-column-gamesPlayed {
+		width: 25%;
+		text-align: center;
+	}
+	.mat-column-winRate {
+		width: 25%;
+		text-align: center;
+	}
+}
+.error {
+	color: red;
+}

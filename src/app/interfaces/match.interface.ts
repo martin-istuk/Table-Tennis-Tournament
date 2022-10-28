@@ -1,5 +1,5 @@
 export interface IMatch {
-	matchId: string,
+	id: string,
 	playerHome: string;
 	playerAway: string;
 	set1: Array<number>;

@@ -1,15 +1,15 @@
 import { IPlayer } from "./player.interface";
-import { Match } from "./match.model";
-import { IMatch } from "./match.interface";
 
 export class Player {
-	public playerId: string;
+	public id: string;
 	public name: string;
 	public matchIds: Array<string>;
+	public winRate: number;
 
 	constructor(player: IPlayer) {
-		this.playerId = player.playerId;
+		this.id = player.id;
 		this.name = player.name;
 		this.matchIds = player.matchIds;
+		this.winRate = player.winRate;
 	}
 }
