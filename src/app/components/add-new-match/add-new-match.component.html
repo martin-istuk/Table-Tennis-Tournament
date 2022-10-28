@@ -21,5 +21,7 @@
 		<mat-icon matPrefix>person</mat-icon>
 	</mat-form-field>
 
+	<p *ngIf="checkNameMatch()" class="passMatchError">You must select two different players!</p>
+
 	<button mat-raised-button color="primary" type="button">Submit</button>
 </form>
