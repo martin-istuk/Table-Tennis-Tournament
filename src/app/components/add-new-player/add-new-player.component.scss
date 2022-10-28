@@ -1,0 +1,11 @@
+:host {
+	width: 50%;
+	margin: 0 auto;
+	display: block;
+	form {
+		display: grid;
+		button {
+			height: 56px;
+		}
+	}
+}

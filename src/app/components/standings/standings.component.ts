@@ -16,6 +16,7 @@ export class StandingsComponent {
 	public displayedColumns: Array<string> = [
 		"id",
 		"name",
+		"age",
 		"gamesPlayed",
 		"winRate",
 	];

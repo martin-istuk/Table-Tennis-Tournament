@@ -1,8 +1,12 @@
 :host {
 	width: 50%;
-	margin: auto;
+	margin: 0 auto;
+	display: block;
 	form {
 		display: grid;
+		button {
+			height: 56px;
+		}
 		.passMatchError {
 			color: red;
 			font-weight: bold;
