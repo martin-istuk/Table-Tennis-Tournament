@@ -1,17 +1,19 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export function nameMatchValidator(
-	playerHome: string,
-	playerAway: string
+	playerHomeInputTag: string,
+	playerAwayInputTag: string
 ): ValidatorFn {
 	return (control: AbstractControl): ValidationErrors | null => {
-		const playerHomeInput = control.get(playerHome);
-		const playerAwayInput = control.get(playerAway);
+		const playerHome = control.get(playerHomeInputTag);
+		const playerAway = control.get(playerAwayInputTag);
 
-		return playerHomeInput &&
-			playerAwayInput &&
-			playerHomeInput.value === playerAwayInput.value
-			? { match: true }
-			: null;
+		return playerHome &&
+			playerAway &&
+			playerHome.touched &&
+			playerAway.touched &&
+			playerHome.value !== playerAway.value
+			? null
+			: { match: true };
 	};
 }

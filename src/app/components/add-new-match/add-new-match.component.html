@@ -1,158 +1,18 @@
 <h3>Add new match</h3>
 
-<form [formGroup]="addNewMatchForm">
-	<div class="inputGroup">
-		<div>
-			<p>Players</p>
-			<mat-form-field appearance="outline">
-				<mat-label>Player 1</mat-label>
-				<mat-select formControlName="playerHome" required>
-					<mat-option
-						*ngFor="let player of players$ | async"
-						[value]="player.name"
-					>
-						{{ player.name }}
-					</mat-option>
-				</mat-select>
-				<mat-icon matPrefix>person</mat-icon>
-			</mat-form-field>
+<app-matchup
+	(playerHomeEmitter)="setPlayerHome($event)"
+	(playerAwayEmitter)="setPlayerAway($event)"
+>
+</app-matchup>
 
-			<mat-form-field appearance="outline">
-				<mat-label>Player 2</mat-label>
-				<mat-select formControlName="playerAway" required>
-					<mat-option
-						*ngFor="let player of players$ | async"
-						[value]="player.name"
-					>
-						{{ player.name }}
-					</mat-option>
-				</mat-select>
-				<mat-icon matPrefix>person</mat-icon>
-			</mat-form-field>
-		</div>
+<app-set *ngFor="let set of [].constructor(5), index as i" [setIndex]="i + 1"></app-set>
 
-		<div>
-			<p>S1</p>
-			<mat-form-field class="set1HomeScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set1HomeScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-			<mat-form-field class="set1AwayScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set1AwayScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-		</div>
-
-		<div>
-			<p>S2</p>
-			<mat-form-field class="set2HomeScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set2HomeScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-			<mat-form-field class="set2AwayScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set2AwayScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-		</div>
-
-		<div>
-			<p>S3</p>
-			<mat-form-field class="set3HomeScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set3HomeScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-			<mat-form-field class="set3AwayScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set3AwayScore"
-					type="number"
-					min="0"
-					required
-				/>
-			</mat-form-field>
-		</div>
-
-		<div>
-			<p>S4</p>
-			<mat-form-field class="set4HomeScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set4HomeScore"
-					type="number"
-					min="0"
-				/>
-			</mat-form-field>
-			<mat-form-field class="set4AwayScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set4AwayScore"
-					type="number"
-					min="0"
-				/>
-			</mat-form-field>
-		</div>
-
-		<div>
-			<p>S5</p>
-			<mat-form-field class="set5HomeScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set5HomeScore"
-					type="number"
-					min="0"
-				/>
-			</mat-form-field>
-			<mat-form-field class="set5AwayScore setScoreBox" appearance="outline">
-				<input
-					matInput
-					formControlName="set5AwayScore"
-					type="number"
-					min="0"
-				/>
-			</mat-form-field>
-		</div>
-	</div>
-
-	<button
-		[disabled]="addNewMatchForm.invalid"
-		(click)="onSubmit($event)"
-		mat-raised-button
-		color="primary"
-		type="button"
-	>
-		<mat-icon matPrefix>add</mat-icon>Submit
-	</button>
-
-	<p *ngIf="checkNameMatchError()" class="error">
-		You must select two different players!
-	</p>
-
-	<p *ngIf="checkPtsDifferenceError()" class="error">
-		Each set must end with winner gaining at least 11 points while leading with at least 2 point margin!
-	</p>
-</form>
+<button
+	(click)="onSubmit($event)"
+	mat-raised-button
+	color="primary"
+	type="button"
+>
+	<mat-icon matPrefix>add</mat-icon>Submit
+</button>

@@ -2,11 +2,11 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 
-import { MatSelectModule } from "@angular/material/select";
-import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 
+import { MatchupModule } from "./matchup/matchup.module";
+import { SetModule } from "./set/set.module";
 import { AddNewMatchComponent } from "./add-new-match.component";
 
 @NgModule({
@@ -14,8 +14,8 @@ import { AddNewMatchComponent } from "./add-new-match.component";
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
-		MatInputModule,
-		MatSelectModule,
+		MatchupModule,
+		SetModule,
 		MatIconModule,
 		MatButtonModule,
 	],

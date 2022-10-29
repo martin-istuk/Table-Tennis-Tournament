@@ -1,26 +1,7 @@
-form {
-	.inputGroup {
-		display: grid;
-		grid-template-columns: 50% auto auto auto auto auto;
-		gap: 1rem;
-		&>div {
-			display: grid;
-			grid-template-columns: auto;
-		}
-		p {
-			text-align: center;
-		}
-	}
-	.setScoreBox {
-		width: 50px;
-	}
-	button {
-		height: 56px;
-	}
-	.error {
-		color: red;
-		font-weight: bold;
-		margin-top: 1rem;
-		margin-bottom: 0;
-	}
+:host {
+	display: grid;
+  justify-items: center;
+}
+h3 {
+	text-align: center;
 }

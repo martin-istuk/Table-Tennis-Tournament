@@ -1,0 +1,26 @@
+<p>Matchup</p>
+
+<form [formGroup]="matchupForm">
+	<mat-form-field appearance="outline">
+		<mat-label>Player 1</mat-label>
+		<mat-select formControlName="playerHome" required [(value)]="playerHome" (valueChange)="emitPlayerHome()">
+			<mat-option *ngFor="let player of players$ | async" [value]="player.name"
+				>{{ player.name }}
+			</mat-option>
+		</mat-select>
+		<mat-icon matPrefix>person</mat-icon>
+	</mat-form-field>
+	<mat-form-field appearance="outline">
+		<mat-label>Player 2</mat-label>
+		<mat-select formControlName="playerAway" required [(value)]="playerAway" (selectionChange)="emitPlayerAway()">
+			<mat-option *ngFor="let player of players$ | async" [value]="player.name">
+				{{ player.name }}
+			</mat-option>
+		</mat-select>
+		<mat-icon matPrefix>person</mat-icon>
+	</mat-form-field>
+</form>
+
+<p *ngIf="checkNameMatchError()" class="error">
+	You must select two different players!
+</p>

@@ -1,20 +1,24 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 export function setScoreValidator(
-	scoreHome: string,
-	scoreAway: string
+	scoreHomeInputTag: string,
+	scoreAwayInputTag: string
 ): ValidatorFn {
 	return (control: AbstractControl): ValidationErrors | null => {
-		const sh = control.get(scoreHome);
-		const sa = control.get(scoreAway);
+		const scoreHome = control.get(scoreHomeInputTag);
+		const scoreAway = control.get(scoreAwayInputTag);
 
-		return sh && sa &&
-			(
-				(sh.value < 11 && sa.value < 11) ||
-				(sh.value >= 11 && sa.value > sh.value - 2) ||
-				(sa.value >= 11 && sh.value > sa.value - 2)
-			)
-			? { pointDifference: true }
-			: null;
+		return scoreHome && scoreAway &&
+		(
+			// SET ENDING CONDITIONS:
+			// end set if one player has 11 points and the other at most 9
+			(scoreHome.value === 11 && scoreAway.value <= scoreHome.value - 2) ||
+			(scoreAway.value === 11 && scoreHome.value <= scoreAway.value - 2) ||
+			// end set if one player has more than 11 points and the other exactly 2 less
+			(scoreHome.value > 11 && scoreAway.value === scoreHome.value - 2) ||
+			(scoreAway.value > 11 && scoreHome.value === scoreAway.value - 2)
+		)
+		? null
+		: { pointDifference: true };
 	};
 }
