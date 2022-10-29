@@ -1,7 +1,34 @@
 :host {
 	display: grid;
   justify-items: center;
-}
-h3 {
-	text-align: center;
+	h2, h3, p {
+		text-align: center;
+	}
+	h3 {
+		margin-bottom: 0;
+	}
+	form {
+		display: grid;
+		justify-items: center;
+		.error {
+			color: red;
+			font-weight: bold;
+		}
+		.mat-form-field-type-mat-select {
+			padding: 3px;
+		}
+		::ng-deep .mat-form-field-wrapper {
+			padding-bottom: 6px;
+		}
+		.set mat-form-field {
+			width: 56px;
+			text-align: center;
+			// font-size: 1.5rem;
+			font-weight: bold;
+			padding: 3px;
+		}
+		button {
+			height: 56px;
+		}
+	}
 }

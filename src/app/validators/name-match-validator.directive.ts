@@ -10,8 +10,6 @@ export function nameMatchValidator(
 
 		return playerHome &&
 			playerAway &&
-			playerHome.touched &&
-			playerAway.touched &&
 			playerHome.value !== playerAway.value
 			? null
 			: { match: true };

@@ -1,4 +1,4 @@
-<h3>Add new player</h3>
+<h2>Add new player</h2>
 
 <form [formGroup]="addNewPlayerForm">
 	<mat-form-field appearance="outline">
@@ -13,5 +13,5 @@
     <mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
 	</mat-form-field>
 
-	<button [disabled]="addNewPlayerForm.invalid" (click)="onSubmit($event)" mat-raised-button color="primary" type="button"><mat-icon matPrefix>add</mat-icon>Submit</button>
+	<button [disabled]="addNewPlayerForm.invalid" (click)="onSubmit($event)" mat-raised-button color="primary" type="button"><mat-icon matPrefix>add</mat-icon>Add Player</button>
 </form>
