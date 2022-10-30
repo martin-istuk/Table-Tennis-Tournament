@@ -20,12 +20,16 @@
 		::ng-deep .mat-form-field-wrapper {
 			padding-bottom: 6px;
 		}
-		.set mat-form-field {
-			width: 56px;
-			text-align: center;
-			// font-size: 1.5rem;
-			font-weight: bold;
-			padding: 3px;
+		.set {
+			display: grid;
+			justify-items: center;
+			width: 60%;
+			mat-form-field {
+				width: 56px;
+				text-align: center;
+				font-weight: bold;
+				padding: 3px;
+			}
 		}
 		button {
 			height: 56px;

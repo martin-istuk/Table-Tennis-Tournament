@@ -8,8 +8,9 @@ import { Player } from "src/app/interfaces/player.model";
 import { MatchService } from "src/app/services/match/match.service";
 import { PlayerService } from "src/app/services/player/player.service";
 import { nameMatchValidator } from "src/app/validators/name-match-validator.directive";
-import { setScoreValidator } from "src/app/validators/set-score-validator.directive";
+import { set123ScoreValidator } from "src/app/validators/set123-score-validator.directive";
 import { set4ScoreValidator } from "src/app/validators/set4-score-validator.directive";
+import { set5ScoreValidator } from "src/app/validators/set5-score-validator.directive";
 
 @Component({
 	selector: "app-add-new-match",
@@ -45,14 +46,16 @@ export class AddNewMatchComponent implements OnDestroy {
 			updateOn: "change",
 			validators: [
 				nameMatchValidator("playerHome", "playerAway"),
-				setScoreValidator("set1scoreHome", "set1scoreAway"),
-				setScoreValidator("set2scoreHome", "set2scoreAway"),
-				setScoreValidator("set3scoreHome", "set3scoreAway"),
-				// set4ScoreValidator(
-				// 	"set1scoreHome", "set1scoreAway", "set2scoreHome", "set2scoreAway", "set3scoreHome", "set3scoreAway", "set4scoreHome", "set4scoreAway"
-				// ),
-				setScoreValidator("set4scoreHome", "set4scoreAway"),
-				setScoreValidator("set5scoreHome", "set5scoreAway"),
+				set123ScoreValidator(1, "set1scoreHome", "set1scoreAway"),
+				set123ScoreValidator(2, "set2scoreHome", "set2scoreAway"),
+				set123ScoreValidator(3, "set3scoreHome", "set3scoreAway"),
+				set4ScoreValidator(
+					"set1scoreHome", "set1scoreAway", "set2scoreHome", "set2scoreAway", "set3scoreHome", "set3scoreAway", "set4scoreHome", "set4scoreAway"
+				),
+				set5ScoreValidator(
+					"set1scoreHome", "set1scoreAway", "set2scoreHome", "set2scoreAway", "set3scoreHome", "set3scoreAway", "set4scoreHome", "set4scoreAway",
+					"set5scoreHome", "set5scoreAway"
+				),
 			],
 		}
 	);
@@ -60,15 +63,14 @@ export class AddNewMatchComponent implements OnDestroy {
 	public checkNameMatchError() {
 		return (
 			this.addNewMatchForm.getError("match") &&
-			this.addNewMatchForm.get("playerHome")?.touched &&
-			this.addNewMatchForm.get("playerAway")?.touched
+			this.addNewMatchForm.get("playerHome")?.touched
 		);
 	}
 
 	public checkPtsDifferenceError(setIndex: number) {
 		return (
-			this.addNewMatchForm.getError("pointDifference") &&
-			this.addNewMatchForm.get("set" + setIndex + "scoreAway")?.touched
+			this.addNewMatchForm.getError("set" + setIndex + "Error") &&
+			this.addNewMatchForm.get("set" + setIndex + "scoreHome")?.touched
 		);
 	}
 
@@ -78,13 +80,13 @@ export class AddNewMatchComponent implements OnDestroy {
 	public set1HomeScore?: number;
 	public set1AwayScore?: number;
 
-	private subscription?: Subscription;
+	private addMatchSubscription?: Subscription;
 
 	public onSubmit(event: Event): void {
 		event.preventDefault();
 
 		if (this.playerHome && this.playerAway) {
-			this.subscription = this.matchService
+			this.addMatchSubscription = this.matchService
 				.addNewMatch(this.playerHome, this.playerAway)
 				.subscribe({
 					next: () => {
@@ -98,6 +100,6 @@ export class AddNewMatchComponent implements OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.subscription?.unsubscribe();
+		this.addMatchSubscription?.unsubscribe();
 	}
 }

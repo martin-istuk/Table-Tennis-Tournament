@@ -28,32 +28,34 @@
 			<mat-icon matPrefix>person</mat-icon>
 		</mat-form-field>
 		<p *ngIf="checkNameMatchError()" class="error">
-			You must select two different players!
+			Matchup must contain two different players!
 		</p>
 	</div>
 
 	<!-- SET INPUTS -->
 	<div *ngFor="let set of [].constructor(5); index as setIndex" class="set">
 		<h3>Set {{ setIndex + 1 }}</h3>
-		<mat-form-field appearance="outline">
-			<input
-				matInput
-				formControlName="{{ 'set' + (setIndex + 1) + 'scoreHome' }}"
-				type="number"
-				min="0"
-			/>
-		</mat-form-field>
-		<mat-form-field appearance="outline">
-			<input
-				matInput
-				formControlName="{{ 'set' + (setIndex + 1) + 'scoreAway' }}"
-				type="number"
-				min="0"
-			/>
-		</mat-form-field>
+		<div>
+			<mat-form-field appearance="outline">
+				<input
+					matInput
+					formControlName="{{ 'set' + (setIndex + 1) + 'scoreHome' }}"
+					type="number"
+					min="0"
+				/>
+			</mat-form-field>
+			<mat-form-field appearance="outline">
+				<input
+					matInput
+					formControlName="{{ 'set' + (setIndex + 1) + 'scoreAway' }}"
+					type="number"
+					min="0"
+				/>
+			</mat-form-field>
+		</div>
 		<p *ngIf="checkPtsDifferenceError(setIndex + 1)" class="error">
 			Set must end with winning player gaining at least 11 points while leading
-			with at least 2 point margin!
+			with at least 2 point margin.
 		</p>
 	</div>
 
