@@ -32,17 +32,17 @@ export class SetComponent implements OnDestroy {
 
 	@Input() setIndex?: number;
 
-	@Output() homeScoreEvent = new EventEmitter<string>();
+	@Output() scoreChangeEvent = new EventEmitter<string>();
+
 	private homeScoreSubscription: Subscription = this.setForm.controls["scoreHome"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.homeScoreEvent.emit("set" + this.setIndex + value);
+			this.scoreChangeEvent.emit("set" + this.setIndex + "home" + value);
 		}
 	});
 
-	@Output() awayScoreEvent = new EventEmitter<string>();
 	private awayScoreSubscription: Subscription = this.setForm.controls["scoreAway"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.awayScoreEvent.emit("set" + this.setIndex + value);
+			this.scoreChangeEvent.emit("set" + this.setIndex + "away" + value);
 		}
 	});
 

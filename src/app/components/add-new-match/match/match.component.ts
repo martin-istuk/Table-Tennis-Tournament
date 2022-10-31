@@ -35,17 +35,17 @@ export class MatchComponent {
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
 
-	@Output() playerHomeEvent = new EventEmitter<string>();
+	@Output() playerChangeEvent = new EventEmitter<string>();
+
 	private playerHomeSubscription: Subscription = this.matchForm.controls["playerHome"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.playerHomeEvent.emit(value);
+			this.playerChangeEvent.emit("home" + value);
 		}
 	});
 
-	@Output() playerAwayEvent = new EventEmitter<string>();
 	private playerAwaySubscription: Subscription = this.matchForm.controls["playerAway"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.playerAwayEvent.emit(value);
+			this.playerChangeEvent.emit("away" + value);
 		}
 	});
 

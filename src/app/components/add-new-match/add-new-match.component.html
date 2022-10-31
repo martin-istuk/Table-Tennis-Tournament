@@ -2,37 +2,23 @@
 
 <!-- MATCHUP INPUTS -->
 <app-match
-	(playerHomeEvent)="updatePlayerHome($event)"
-	(playerAwayEvent)="updatePlayerAway($event)"
+	(playerChangeEvent)="updatePlayer($event)"
+	(playerChangeEvent)="updatePlayer($event)"
 ></app-match>
 
 <!-- SET INPUTS -->
+<app-set [setIndex]="1" (scoreChangeEvent)="updateScore($event)"></app-set>
+<app-set [setIndex]="2" (scoreChangeEvent)="updateScore($event)"></app-set>
+<app-set [setIndex]="3" (scoreChangeEvent)="updateScore($event)"></app-set>
 <app-set
-	[setIndex]="1"
-	(homeScoreEvent)="updateHomeScore($event)"
-	(awayScoreEvent)="updateAwayScore($event)"
-></app-set>
-<app-set
-	[setIndex]="2"
-	(homeScoreEvent)="updateHomeScore($event)"
-	(awayScoreEvent)="updateAwayScore($event)"
-></app-set>
-<app-set
-	[setIndex]="3"
-	(homeScoreEvent)="updateHomeScore($event)"
-	(awayScoreEvent)="updateAwayScore($event)"
-></app-set>
-<app-set
-	*ngIf="false"
+	*ngIf="set4visibility"
 	[setIndex]="4"
-	(homeScoreEvent)="updateHomeScore($event)"
-	(awayScoreEvent)="updateAwayScore($event)"
+	(scoreChangeEvent)="updateScore($event)"
 ></app-set>
 <app-set
-	*ngIf="false"
+	*ngIf="set5visibility"
 	[setIndex]="5"
-	(homeScoreEvent)="updateHomeScore($event)"
-	(awayScoreEvent)="updateAwayScore($event)"
+	(scoreChangeEvent)="updateScore($event)"
 ></app-set>
 
 <!-- SUBMIT BUTTON -->
