@@ -12,6 +12,6 @@ export function nameMatchValidator(
 			playerAway &&
 			playerHome.value !== playerAway.value
 			? null
-			: { match: true };
+			: { matchupError: true };
 	};
 }

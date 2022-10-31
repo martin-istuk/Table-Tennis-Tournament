@@ -8,12 +8,16 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 
 import { AddNewMatchComponent } from "./add-new-match.component";
+import { SetModule } from "./set/set.module";
+import { MatchModule } from "./match/match.module";
 
 @NgModule({
 	declarations: [AddNewMatchComponent],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
+		SetModule,
+		MatchModule,
 		MatInputModule,
 		MatSelectModule,
 		MatIconModule,

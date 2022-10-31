@@ -1,7 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
-export function set123ScoreValidator(
-	set: number,
+export function setScoreValidator(
 	setScoreHomeInputTag: string,
 	setScoreAwayInputTag: string
 ): ValidatorFn {
@@ -20,10 +19,6 @@ export function set123ScoreValidator(
 				(scoreAway.value > 11 && scoreHome.value === scoreAway.value - 2)
 			)
 			? null
-			: (
-					set === 1 ? { set1Error: true } : (
-						set === 2 ? { set2Error: true } : { set3Error: true }
-					)
-				);
+			: { setError: true };
 	};
 }
