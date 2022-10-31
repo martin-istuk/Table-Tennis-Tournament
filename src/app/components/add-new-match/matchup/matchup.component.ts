@@ -6,6 +6,7 @@ import { Observable, Subscription } from "rxjs";
 import { nameMatchValidator } from "src/app/validators/name-match-validator.directive";
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
+import { MatchupData } from "src/app/interfaces/matchup-data.model";
 
 @Component({
 	selector: "app-matchup",
@@ -39,27 +40,22 @@ export class MatchupComponent {
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
 
-	@Output() playerChangeEvent = new EventEmitter<string>();
+	@Output() playerChangeEvent = new EventEmitter<MatchupData>();
 
-	private playerHomeSubscription: Subscription = this.matchForm.controls["playerHome"].valueChanges.subscribe({
-		next: (value: string) => {
-			this.matchForm.updateValueAndValidity();
-			const errorCheck: number = Number(this.checkNameMatchError());
-			this.playerChangeEvent.emit("error" + errorCheck + "home" + value);
-		}
-	});
-
-	private playerAwaySubscription: Subscription = this.matchForm.controls["playerAway"].valueChanges.subscribe({
-		next: (value: string) => {
-			this.matchForm.updateValueAndValidity();
-			const errorCheck: number = Number(this.checkNameMatchError());
-			this.playerChangeEvent.emit("error" + errorCheck + "away" + value);
+	private subscription: Subscription = this.matchForm.valueChanges.subscribe({
+		next: () => {
+			this.matchForm.updateValueAndValidity( {emitEvent: false} );
+			const matchup: MatchupData = {
+				playerHome: this.matchForm.controls["playerHome"].value,
+				playerAway: this.matchForm.controls["playerAway"].value,
+				error: Boolean(this.checkNameMatchError())
+			}
+			this.playerChangeEvent.emit(matchup);
 		}
 	});
 
 	ngOnDestroy(): void {
-		this.playerHomeSubscription?.unsubscribe();
-		this.playerAwaySubscription?.unsubscribe();
+		this.subscription?.unsubscribe();
 	}
 
 }

@@ -28,12 +28,9 @@
 ></app-set>
 
 <!-- SUBMIT BUTTON -->
-<!-- <button (click)="onSubmit()" [disabled]="!submitEnabled" mat-raised-button color="primary" type="button">
-	<mat-icon matPrefix>add</mat-icon>Add Match
-</button> -->
 <button
 	(click)="onSubmit()"
-	[disabled]="!matchupError && !set1error && !set2error && !set3error && !set4error && !set5error"
+	[disabled]="submitDisabled | async"
 	mat-raised-button
 	color="primary"
 	type="button"

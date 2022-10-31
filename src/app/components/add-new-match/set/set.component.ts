@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 import { setScoreValidator } from "src/app/validators/set-score-validator.directive";
+import { SetData } from "src/app/interfaces/set-data.model";
 
 @Component({
 	selector: "app-set",
@@ -30,44 +31,30 @@ export class SetComponent implements OnDestroy {
 	);
 
 	public checkPtsDifferenceError(): boolean {
-		return (
-			this.setForm.getError("setError")
-			// &&
-			// this.setForm.get("scoreHome")?.dirty &&
-			// this.setForm.get("scoreAway")?.dirty
-		);
+		return this.setForm.getError("setError");
+		// &&
+		// this.setForm.get("scoreHome")?.dirty &&
+		// this.setForm.get("scoreAway")?.dirty
 	}
 
 	@Input() setIndex?: number;
 
-	@Output() scoreChangeEvent = new EventEmitter<string>();
+	@Output() scoreChangeEvent = new EventEmitter<SetData>();
 
-	private homeScoreSubscription: Subscription = this.setForm.controls[
-		"scoreHome"
-	].valueChanges.subscribe({
-		next: (value: string) => {
-			this.setForm.updateValueAndValidity();
-			const errorCheck: number = Number(this.checkPtsDifferenceError());
-			this.scoreChangeEvent.emit(
-				"set" + this.setIndex + "error" + errorCheck + "home" + value
-			);
-		},
-	});
-
-	private awayScoreSubscription: Subscription = this.setForm.controls[
-		"scoreAway"
-	].valueChanges.subscribe({
-		next: (value: string) => {
-			this.setForm.updateValueAndValidity();
-			const errorCheck: number = Number(this.checkPtsDifferenceError());
-			this.scoreChangeEvent.emit(
-				"set" + this.setIndex + "error" + errorCheck + "away" + value
-			);
+	private subscription: Subscription = this.setForm.valueChanges.subscribe({
+		next: () => {
+			this.setForm.updateValueAndValidity({ emitEvent: false });
+			const setData: SetData = {
+				setIndex: Number(this.setIndex),
+				scoreHome: this.setForm.controls["scoreHome"].value,
+				scoreAway: this.setForm.controls["scoreAway"].value,
+				error: Boolean(this.checkPtsDifferenceError()),
+			};
+			this.scoreChangeEvent.emit(setData);
 		},
 	});
 
 	ngOnDestroy(): void {
-		this.homeScoreSubscription?.unsubscribe();
-		this.awayScoreSubscription?.unsubscribe();
+		this.subscription?.unsubscribe();
 	}
 }
