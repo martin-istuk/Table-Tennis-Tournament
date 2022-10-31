@@ -26,10 +26,9 @@ export class MatchComponent {
 		{ validators: [nameMatchValidator("playerHome", "playerAway")] }
 	);
 
-	public checkNameMatchError() {
+	public checkNameMatchError(): boolean {
 		return (
-			this.matchForm.getError("matchupError") &&
-			this.matchForm.get("playerAway")?.touched
+			this.matchForm.getError("matchupError")
 		);
 	}
 
@@ -39,13 +38,17 @@ export class MatchComponent {
 
 	private playerHomeSubscription: Subscription = this.matchForm.controls["playerHome"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.playerChangeEvent.emit("home" + value);
+			const errorCheck: number = Number(this.checkNameMatchError());
+			// console.log("error" + errorCheck + "home" + value);
+			this.playerChangeEvent.emit("error" + errorCheck + "home" + value);
 		}
 	});
 
 	private playerAwaySubscription: Subscription = this.matchForm.controls["playerAway"].valueChanges.subscribe({
 		next: (value: string) => {
-			this.playerChangeEvent.emit("away" + value);
+			const errorCheck: number = Number(this.checkNameMatchError());
+			// console.log("error" + errorCheck + "away" + value);
+			this.playerChangeEvent.emit("error" + errorCheck + "away" + value);
 		}
 	});
 

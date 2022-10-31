@@ -74,9 +74,20 @@ export class MatchService {
 		this._matchArray$.asObservable();
 
 	public addNewMatch(
-		newPlayerHome: string,
-		newPlayerAway: string
+		playerHome: string,
+		playerAway: string,
+		set1HomeScore: number,
+		set1AwayScore: number,
+		set2HomeScore: number,
+		set2AwayScore: number,
+		set3HomeScore: number,
+		set3AwayScore: number,
+		set4HomeScore?: number,
+		set4AwayScore?: number,
+		set5HomeScore?: number,
+		set5AwayScore?: number
 	): Observable<boolean> {
+		// generate match ID
 		const matchAmount: number = this._matchArray$.getValue().length;
 		let newMatchId: string = "m-";
 		if (matchAmount < 10) {
@@ -85,12 +96,14 @@ export class MatchService {
 			newMatchId += "0";
 		}
 		newMatchId += matchAmount + 1;
+
+		// create and dispach new match
 		this._matchArray$.next(
 			this._matchArray$.getValue().concat([
 				{
 					id: newMatchId,
-					playerHome: newPlayerHome,
-					playerAway: newPlayerAway,
+					playerHome: playerHome,
+					playerAway: playerAway,
 					sets: [],
 					score: [0, 0],
 					winner: "",

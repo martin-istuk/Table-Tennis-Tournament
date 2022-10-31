@@ -1,4 +1,10 @@
-import { Component, OnDestroy, Input, Output, EventEmitter } from "@angular/core";
+import {
+	Component,
+	OnDestroy,
+	Input,
+	Output,
+	EventEmitter,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { Subscription } from "rxjs";
@@ -19,11 +25,11 @@ export class SetComponent implements OnDestroy {
 			scoreAway: ["", [Validators.required]],
 		},
 		{
-			validators: [setScoreValidator("scoreHome", "scoreAway")]
+			validators: [setScoreValidator("scoreHome", "scoreAway")],
 		}
 	);
 
-	public checkPtsDifferenceError() {
+	public checkPtsDifferenceError(): boolean {
 		return (
 			this.setForm.getError("setError") &&
 			this.setForm.get("scoreAway")?.touched
@@ -34,21 +40,30 @@ export class SetComponent implements OnDestroy {
 
 	@Output() scoreChangeEvent = new EventEmitter<string>();
 
-	private homeScoreSubscription: Subscription = this.setForm.controls["scoreHome"].valueChanges.subscribe({
+	private homeScoreSubscription: Subscription = this.setForm.controls[
+		"scoreHome"
+	].valueChanges.subscribe({
 		next: (value: string) => {
-			this.scoreChangeEvent.emit("set" + this.setIndex + "home" + value);
-		}
+			const errorCheck: number = Number(this.checkPtsDifferenceError());
+			this.scoreChangeEvent.emit(
+				"set" + this.setIndex + "error" + errorCheck + "home" + value
+			);
+		},
 	});
 
-	private awayScoreSubscription: Subscription = this.setForm.controls["scoreAway"].valueChanges.subscribe({
+	private awayScoreSubscription: Subscription = this.setForm.controls[
+		"scoreAway"
+	].valueChanges.subscribe({
 		next: (value: string) => {
-			this.scoreChangeEvent.emit("set" + this.setIndex + "away" + value);
-		}
+			const errorCheck: number = Number(this.checkPtsDifferenceError());
+			this.scoreChangeEvent.emit(
+				"set" + this.setIndex + "error" + errorCheck + "away" + value
+			);
+		},
 	});
 
 	ngOnDestroy(): void {
 		this.homeScoreSubscription?.unsubscribe();
 		this.awayScoreSubscription?.unsubscribe();
 	}
-
 }
