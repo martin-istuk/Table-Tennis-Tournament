@@ -21,8 +21,8 @@ export class SetComponent implements OnDestroy {
 
 	public setForm: FormGroup = this.formBuilder.group(
 		{
-			scoreHome: ["", [Validators.required]],
-			scoreAway: ["", [Validators.required]],
+			scoreHome: [0, [Validators.required, Validators.minLength(1)]],
+			scoreAway: [0, [Validators.required, Validators.minLength(1)]],
 		},
 		{
 			validators: [setScoreValidator("scoreHome", "scoreAway")],
@@ -31,8 +31,10 @@ export class SetComponent implements OnDestroy {
 
 	public checkPtsDifferenceError(): boolean {
 		return (
-			this.setForm.getError("setError") &&
-			this.setForm.get("scoreAway")?.touched
+			this.setForm.getError("setError")
+			// &&
+			// this.setForm.get("scoreHome")?.dirty &&
+			// this.setForm.get("scoreAway")?.dirty
 		);
 	}
 
@@ -44,6 +46,7 @@ export class SetComponent implements OnDestroy {
 		"scoreHome"
 	].valueChanges.subscribe({
 		next: (value: string) => {
+			this.setForm.updateValueAndValidity();
 			const errorCheck: number = Number(this.checkPtsDifferenceError());
 			this.scoreChangeEvent.emit(
 				"set" + this.setIndex + "error" + errorCheck + "home" + value
@@ -55,6 +58,7 @@ export class SetComponent implements OnDestroy {
 		"scoreAway"
 	].valueChanges.subscribe({
 		next: (value: string) => {
+			this.setForm.updateValueAndValidity();
 			const errorCheck: number = Number(this.checkPtsDifferenceError());
 			this.scoreChangeEvent.emit(
 				"set" + this.setIndex + "error" + errorCheck + "away" + value

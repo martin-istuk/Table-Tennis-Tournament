@@ -21,19 +21,19 @@ export class AddNewMatchComponent implements OnDestroy {
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
 
-	public playerHome?: string;
-	public playerAway?: string;
+	public playerHome: string = "";
+	public playerAway: string = "";
 	public matchupError: boolean = false;
-	public set1HomeScore?: number;
-	public set1AwayScore?: number;
-	public set2HomeScore?: number;
-	public set2AwayScore?: number;
-	public set3HomeScore?: number;
-	public set3AwayScore?: number;
-	public set4HomeScore?: number;
-	public set4AwayScore?: number;
-	public set5HomeScore?: number;
-	public set5AwayScore?: number;
+	public set1HomeScore: number = 0;
+	public set1AwayScore: number = 0;
+	public set2HomeScore: number = 0;
+	public set2AwayScore: number = 0;
+	public set3HomeScore: number = 0;
+	public set3AwayScore: number = 0;
+	public set4HomeScore: number = 0;
+	public set4AwayScore: number = 0;
+	public set5HomeScore: number = 0;
+	public set5AwayScore: number = 0;
 	public set1error: boolean = false;
 	public set2error: boolean = false;
 	public set3error: boolean = false;
@@ -47,11 +47,6 @@ export class AddNewMatchComponent implements OnDestroy {
 		const error: boolean = Boolean(Number(value.slice(5, 6)));
 		const host: string = value.slice(6, 10);
 		const newValue: string = value.slice(10);
-
-		// console.log(value);
-		// console.log("error: " + error);
-		// console.log("host: " + host);
-		// console.log("newValue: " + newValue);
 
 		if (error) {
 			this.matchupError = true
@@ -71,12 +66,6 @@ export class AddNewMatchComponent implements OnDestroy {
 		const error: boolean = Boolean(Number(value.slice(9, 10)));
 		const host: string = value.slice(10, 14);
 		const newValue: number = Number(value.slice(14));
-
-		// console.log(value);
-		// console.log("setIndex: " + setIndex);
-		// console.log("error: " + error);
-		// console.log("host: " + host);
-		// console.log("newValue: " + newValue);
 
 		// update errors
 		switch (setIndex) {
@@ -110,31 +99,54 @@ export class AddNewMatchComponent implements OnDestroy {
 	private updateFormStructure(value: string): void {
 		const setIndex: number = Number(value.slice(3, 4));
 
+		console.log(
+			(
+				this.set1HomeScore !== undefined &&
+				this.set1AwayScore !== undefined &&
+				this.set1HomeScore > this.set1AwayScore
+			)
+		)
+
 		if (
 			// check if first 3 sets have all inputs filled and no validation errors
-			this.set1HomeScore &&	this.set1AwayScore &&	!this.set1error &&  // set 1
-			this.set2HomeScore &&	this.set2AwayScore &&	!this.set2error &&  // set 2
-			this.set3HomeScore &&	this.set3AwayScore &&	!this.set3error  // set 3
+			// set 1
+			(this.set1HomeScore !== undefined && this.set1HomeScore >= 0) &&
+			(this.set1AwayScore !== undefined && this.set1AwayScore >= 0) &&
+			!this.set1error &&
+			// set 2
+			(this.set2HomeScore !== undefined && this.set2HomeScore >= 0) &&
+			(this.set2AwayScore !== undefined && this.set2AwayScore >= 0) &&
+			!this.set2error &&
+			// set 3
+			(this.set3HomeScore !== undefined && this.set3HomeScore >= 0) &&
+			(this.set3AwayScore !== undefined && this.set3AwayScore >= 0) &&
+			!this.set3error
 		) {
 			if (
 				// check if first 3 sets were won by the same player
-				(this.set1HomeScore > this.set1AwayScore &&  // set 1
+				(
+					this.set1HomeScore > this.set1AwayScore &&  // set 1
 					this.set2HomeScore > this.set2AwayScore &&  // set 2
-					this.set3HomeScore > this.set3AwayScore) ||   // set 3
-				(this.set1HomeScore > this.set1AwayScore &&  // set 1
-					this.set2HomeScore > this.set2AwayScore &&  // set 2
-					this.set3HomeScore > this.set3AwayScore)  // set 3
+					this.set3HomeScore > this.set3AwayScore  // set 3
+				) ||
+				(
+					this.set1HomeScore < this.set1AwayScore &&  // set 1
+					this.set2HomeScore < this.set2AwayScore &&  // set 2
+					this.set3HomeScore < this.set3AwayScore  // set 3
+				)
 			) {
 				// match ended in 3 sets
-				this.submitEnabled = true;
+				if (!this.matchupError) {this.submitEnabled = true}
 				this.set4visibility = false;
 				this.set5visibility = false;
 			} else {
 				// fourth set needs to be played
 				this.set4visibility = true;
 				if (
-					// check if fourth set has all inputs filled and no validation error
-					this.set4HomeScore && this.set4AwayScore &&	!this.set4error &&  // set 4
+					// check if set 4 has all inputs filled and no validation error
+					(this.set4HomeScore !== undefined && this.set4HomeScore >= 0) &&
+					(this.set4AwayScore !== undefined && this.set4AwayScore >= 0) &&
+					!this.set4error &&
 					// check if, after four sets, playerHome did NOT
 					// win exactly 2 sets (result is NOT 2:2)
 					Number(this.set1HomeScore > this.set1AwayScore) +
@@ -144,13 +156,13 @@ export class AddNewMatchComponent implements OnDestroy {
 						2
 				) {
 					// match ended in 4 sets
-					this.submitEnabled = true;
+					if (!this.matchupError) {this.submitEnabled = true}
 					this.set5visibility = false;
 				} else {
 					// fifth set needs to be played
 					this.set5visibility = true;
 					if (!this.set5error) {
-						this.submitEnabled = true;
+						if (!this.matchupError) {this.submitEnabled = true}
 					} else {
 						this.submitEnabled = false;
 					}

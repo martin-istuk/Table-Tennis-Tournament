@@ -8,11 +8,11 @@ import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
 
 @Component({
-	selector: "app-match",
-	templateUrl: "./match.component.html",
-	styleUrls: ["./match.component.scss"],
+	selector: "app-matchup",
+	templateUrl: "./matchup.component.html",
+	styleUrls: ["./matchup.component.scss"],
 })
-export class MatchComponent {
+export class MatchupComponent {
 	constructor(
 		private formBuilder: FormBuilder,
 		private playerService: PlayerService
@@ -23,12 +23,17 @@ export class MatchComponent {
 			playerHome: ["", [Validators.required]],
 			playerAway: ["", [Validators.required]],
 		},
-		{ validators: [nameMatchValidator("playerHome", "playerAway")] }
+		{
+			validators: [nameMatchValidator("playerHome", "playerAway")]
+		}
 	);
 
 	public checkNameMatchError(): boolean {
 		return (
 			this.matchForm.getError("matchupError")
+			// &&
+			// this.matchForm.get("playerHome")?.dirty &&
+			// this.matchForm.get("playerAway")?.dirty
 		);
 	}
 
@@ -38,16 +43,16 @@ export class MatchComponent {
 
 	private playerHomeSubscription: Subscription = this.matchForm.controls["playerHome"].valueChanges.subscribe({
 		next: (value: string) => {
+			this.matchForm.updateValueAndValidity();
 			const errorCheck: number = Number(this.checkNameMatchError());
-			// console.log("error" + errorCheck + "home" + value);
 			this.playerChangeEvent.emit("error" + errorCheck + "home" + value);
 		}
 	});
 
 	private playerAwaySubscription: Subscription = this.matchForm.controls["playerAway"].valueChanges.subscribe({
 		next: (value: string) => {
+			this.matchForm.updateValueAndValidity();
 			const errorCheck: number = Number(this.checkNameMatchError());
-			// console.log("error" + errorCheck + "away" + value);
 			this.playerChangeEvent.emit("error" + errorCheck + "away" + value);
 		}
 	});

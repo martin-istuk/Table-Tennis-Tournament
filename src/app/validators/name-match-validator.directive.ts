@@ -8,10 +8,14 @@ export function nameMatchValidator(
 		const playerHome = control.get(playerHomeInputTag);
 		const playerAway = control.get(playerAwayInputTag);
 
-		return playerHome &&
+		return (
+			playerHome &&
 			playerAway &&
+			playerHome.value !== "" &&
+			playerAway.value !== "" &&
 			playerHome.value !== playerAway.value
 			? null
-			: { matchupError: true };
+			: { matchupError: true }
+		);
 	};
 }

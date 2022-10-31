@@ -6,10 +6,10 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatIconModule } from "@angular/material/icon";
 
-import { MatchComponent } from "./match.component";
+import { MatchupComponent } from "./matchup.component";
 
 @NgModule({
-	declarations: [MatchComponent],
+	declarations: [MatchupComponent],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -17,6 +17,6 @@ import { MatchComponent } from "./match.component";
 		MatSelectModule,
 		MatIconModule,
 	],
-	exports: [MatchComponent],
+	exports: [MatchupComponent],
 })
-export class MatchModule {}
+export class MatchupModule {}

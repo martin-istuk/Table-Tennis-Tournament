@@ -8,7 +8,8 @@ export function setScoreValidator(
 		const scoreHome = control.get(setScoreHomeInputTag);
 		const scoreAway = control.get(setScoreAwayInputTag);
 
-		return scoreHome &&
+		return (
+			scoreHome &&
 			scoreAway &&
 			(
 				// end set if one player has 11 points and the other at most 9
@@ -19,6 +20,7 @@ export function setScoreValidator(
 				(scoreAway.value > 11 && scoreHome.value === scoreAway.value - 2)
 			)
 			? null
-			: { setError: true };
+			: { setError: true }
+		);
 	};
 }
