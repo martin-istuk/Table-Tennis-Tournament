@@ -16,7 +16,7 @@ export class MatchListComponent {
 	public displayedColumns: Array<string> = [
 		"id",
 		"matchup",
-		"result",
+		"score",
 	];
 
 	public matchList$: Observable<Array<Match>> = this.matchService.matchArray$;

@@ -13,25 +13,24 @@ table {
 		margin-right: 1rem;
 	}
 	.mat-column-id {
-		width: 20%;
+		padding-right: 5%;
 	}
 	.mat-column-name {
-		width: 20%;
-		a {
-			font-weight: bold;
-			text-decoration: none;
-		}
+		padding-left: 5%;
+		padding-right: 5%;
 	}
 	.mat-column-age {
-		width: 10%;
+		padding-left: 5%;
+		padding-right: 5%;
 		text-align: right;
 	}
 	.mat-column-gamesPlayed {
-		width: 30%;
+		padding-left: 5%;
+		padding-right: 5%;
 		text-align: center;
 	}
 	.mat-column-setWins {
-		width: 20%;
+		padding-left: 5%;
 		text-align: center;
 	}
 }

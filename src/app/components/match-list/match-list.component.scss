@@ -13,39 +13,18 @@ table {
 		margin-right: 1rem;
 	}
 	.mat-column-id {
-		width: 20%;
+		padding-right: 5%;
 	}
 	.mat-column-matchup {
-		width: 20%;
+		padding-left: 5%;
 		padding-right: 5%;
-		text-align: right;
+		text-align: left;
 	}
-	.mat-column-result {
-		width: 60%;
-		.scoreBox {
-			display: grid;
-			grid-template-columns: auto auto auto auto auto;
-			gap: 1rem;
-			justify-content: start;
-			padding: 0.5rem 0;
-			.column {
-				display: grid;
-				grid-template-columns: auto;
-				gap: 0.5rem;
-				justify-items: end;
-				min-width: 30px;
-				border-left: 1px solid Grey;
-				p {
-					margin: 0;
-				}
-				.setIndex {
-					color: hsl(0, 0%, 60%);
-					border-bottom: 1px solid Grey;
-				}
-			}
-		}
+	.mat-column-score {
+		padding-left: 5%;
+		text-align: center;
 	}
-}
-.error {
-	color: red;
+	.column p {
+		margin: 0.5rem 0;
+	}
 }
