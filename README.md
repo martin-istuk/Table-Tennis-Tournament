@@ -1,5 +1,9 @@
 # TableTennisTournament
 
+This project is hosted on Firebase and available online on [this link](https://table-tennis-tournament-df94a.web.app/).
+
+# About project
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.1.
 
 ## Development server
