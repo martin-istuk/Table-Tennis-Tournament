@@ -83,10 +83,16 @@ export class MatchService {
 		newMatch.sets.push( [match.set1HomeScore, match.set1AwayScore] );
 		newMatch.sets.push( [match.set2HomeScore, match.set2AwayScore] );
 		newMatch.sets.push( [match.set3HomeScore, match.set3AwayScore] );
-		if (match.set4HomeScore && match.set4AwayScore) {
+		if (
+			match.set4HomeScore !== undefined && match.set4HomeScore >= 0 &&
+			match.set4AwayScore !== undefined && match.set4AwayScore >= 0
+		) {
 			newMatch.sets.push( [match.set4HomeScore, match.set4AwayScore] );
 		}
-		if (match.set5HomeScore && match.set5AwayScore) {
+		if (
+			match.set5HomeScore !== undefined && match.set5HomeScore >= 0 &&
+			match.set5AwayScore !== undefined && match.set5AwayScore >= 0
+		) {
 			newMatch.sets.push( [match.set5HomeScore, match.set5AwayScore] );
 		}
 
