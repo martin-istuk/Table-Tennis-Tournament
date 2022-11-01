@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
@@ -6,15 +6,15 @@ import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { Player } from "src/app/interfaces/player.model";
 import { MatchService } from "src/app/services/match/match.service";
 import { PlayerService } from "src/app/services/player/player.service";
-import { MatchupData } from "src/app/interfaces/matchup-data.model";
-import { SetData } from "src/app/interfaces/set-data.model";
+import { MatchupData } from "src/app/interfaces/matchup-data.type";
+import { SetData } from "src/app/interfaces/set-data.type";
 
 @Component({
 	selector: "app-add-new-match",
 	templateUrl: "./add-new-match.component.html",
 	styleUrls: ["./add-new-match.component.scss"],
 })
-export class AddNewMatchComponent implements OnDestroy {
+export class AddNewMatchComponent implements OnInit, OnDestroy {
 	constructor(
 		private matchService: MatchService,
 		private playerService: PlayerService,
@@ -43,13 +43,42 @@ export class AddNewMatchComponent implements OnDestroy {
 	public set5error: boolean = true;
 	public set4visibility: boolean = false;
 	public set5visibility: boolean = false;
-	public _submitDisabled = new BehaviorSubject<boolean>(true);
-	public submitDisabled = this._submitDisabled.asObservable();
+	public submitDisabled: boolean = true;
+
+	private updateSubmitDisabled(): void {
+		console.log("-------------------------------------------");
+		console.log("matchupError: " + this.matchupError);
+		console.log("set1error: " + this.set1error);
+		console.log("set2error: " + this.set2error);
+		console.log("set3error: " + this.set3error);
+		console.log("set4visibility: " + this.set4visibility);
+		console.log("set4error: " + this.set4error);
+		console.log("set5visibility: " + this.set5visibility);
+		console.log("set5error: " + this.set5error);
+		console.log("submit disabled: " + this.submitDisabled);
+		console.log("-------------------------------------------");
+		this.submitDisabled = Boolean(
+			this.matchupError ||
+			this.set1error || this.set2error || this.set3error ||
+			(this.set4visibility && this.set4error) ||
+			(this.set5visibility && this.set5error)
+		);
+	}
+
+	ngOnInit(): void {
+		console.log(this.submitDisabled)
+	}
 
 	public updatePlayer(matchupData: MatchupData): void {
 		this.playerHome = matchupData.playerHome;
 		this.playerAway = matchupData.playerAway;
 		this.matchupError = matchupData.error;
+		this.updateSubmitDisabled();
+	}
+
+	public updateScoreAndStructure(setData: SetData): void {
+		this.updateSets(setData);
+		this.updateFormStructure();
 	}
 
 	private updateSets(setData: SetData): void {
@@ -85,16 +114,11 @@ export class AddNewMatchComponent implements OnDestroy {
 				break
 			}
 		}
+
+		this.updateSubmitDisabled();
 	}
 
 	private updateFormStructure(): void {
-
-		console.log(
-			(
-				this.set1HomeScore > this.set1AwayScore
-			)
-		)
-
 		if (
 			// check if first 3 sets have all inputs filled and no validation errors
 			// set 1
@@ -124,40 +148,42 @@ export class AddNewMatchComponent implements OnDestroy {
 				)
 			) {
 				// match ended in 3 sets
-				this._submitDisabled.next(
-					this.matchupError || this.set1error ||
-					this.set2error || this.set3error
-				);
 				this.set4visibility = false;
 				this.set5visibility = false;
 			} else {
-				// fourth set needs to be played
-				this.set4visibility = true;
+				// set 4 needs to be played
+				this.set4visibility = (!this.set1error && !this.set2error && !this.set3error);
 				if (
 					// check if set 4 has all inputs filled and no validation error
 					(this.set4HomeScore !== undefined && this.set4HomeScore >= 0) &&
 					(this.set4AwayScore !== undefined && this.set4AwayScore >= 0) &&
 					!this.set4error &&
-					// check if, after four sets, playerHome did NOT
+					// check if, after 4 sets, playerHome did NOT
 					// win exactly 2 sets (result is NOT 2:2)
-					Number(this.set1HomeScore > this.set1AwayScore) +
-					Number(this.set2HomeScore > this.set2AwayScore) +
-					Number(this.set3HomeScore > this.set3AwayScore) +
-					Number(this.set4HomeScore > this.set4AwayScore) !==	2
+					(
+						Number(this.set1HomeScore > this.set1AwayScore) +
+						Number(this.set2HomeScore > this.set2AwayScore) +
+						Number(this.set3HomeScore > this.set3AwayScore) +
+						Number(this.set4HomeScore > this.set4AwayScore) !==	2
+					)
 				) {
 					// match ended in 4 sets
 					this.set5visibility = false;
 				} else {
-					// fifth set needs to be played
-					this.set5visibility = true;
+					// set 5 needs to be played
+					if (
+						// check if set 4 is finished and valid
+						!this.set4error
+					) {
+						this.set5visibility = (
+							!this.set1error && !this.set2error && !this.set3error && !this.set4error
+						);
+					}
 				}
 			}
 		}
-	}
 
-	public updateScoreAndStructure(setData: SetData): void {
-		this.updateSets(setData);
-		this.updateFormStructure();
+		this.updateSubmitDisabled();
 	}
 
 	private addMatchSubscription?: Subscription;

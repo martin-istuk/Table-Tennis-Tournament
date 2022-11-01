@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 import { setScoreValidator } from "src/app/validators/set-score-validator.directive";
-import { SetData } from "src/app/interfaces/set-data.model";
+import { SetData } from "src/app/interfaces/set-data.type";
 
 @Component({
 	selector: "app-set",
@@ -31,10 +31,11 @@ export class SetComponent implements OnDestroy {
 	);
 
 	public checkPtsDifferenceError(): boolean {
-		return this.setForm.getError("setError");
-		// &&
-		// this.setForm.get("scoreHome")?.dirty &&
-		// this.setForm.get("scoreAway")?.dirty
+		return this.setForm.getError("setError") &&
+		(
+			this.setForm.get("scoreHome")?.dirty ||
+			this.setForm.get("scoreAway")?.dirty
+		)
 	}
 
 	@Input() setIndex?: number;

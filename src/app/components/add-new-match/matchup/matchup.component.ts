@@ -6,7 +6,7 @@ import { Observable, Subscription } from "rxjs";
 import { nameMatchValidator } from "src/app/validators/name-match-validator.directive";
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
-import { MatchupData } from "src/app/interfaces/matchup-data.model";
+import { MatchupData } from "src/app/interfaces/matchup-data.type";
 
 @Component({
 	selector: "app-matchup",
@@ -31,10 +31,11 @@ export class MatchupComponent {
 
 	public checkNameMatchError(): boolean {
 		return (
-			this.matchForm.getError("matchupError")
-			// &&
-			// this.matchForm.get("playerHome")?.dirty &&
-			// this.matchForm.get("playerAway")?.dirty
+			this.matchForm.getError("matchupError") &&
+			(
+				this.matchForm.get("playerHome")?.dirty ||
+				this.matchForm.get("playerAway")?.dirty
+			)
 		);
 	}
 
