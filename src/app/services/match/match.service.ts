@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { BehaviorSubject, of, Observable } from "rxjs";
+import { AddNewMatch } from "src/app/interfaces/add-new-match.type";
 
 import { Match } from "src/app/interfaces/match.model";
 import { PlayerService } from "../player/player.service";
@@ -57,14 +58,7 @@ export class MatchService {
 	public matchArray$: Observable<Array<Match>> =
 		this._matchArray$.asObservable();
 
-	public addNewMatch(
-		playerHome: string, playerAway: string,
-		set1HomeScore: number, set1AwayScore: number,
-		set2HomeScore: number, set2AwayScore: number,
-		set3HomeScore: number, set3AwayScore: number,
-		set4HomeScore?: number, set4AwayScore?: number,
-		set5HomeScore?: number, set5AwayScore?: number
-	): void {
+	public addNewMatch(match: AddNewMatch): void {
 		// generate match ID
 		const matchAmount: number = this._matchArray$.getValue().length;
 		let newMatchId: string = "m-";
@@ -78,22 +72,22 @@ export class MatchService {
 		// create new match
 		const newMatch: Match = {
 			id: newMatchId,
-			playerHome: playerHome,
-			playerAway: playerAway,
+			playerHome: match.playerHome,
+			playerAway: match.playerAway,
 			sets: [],
 			score: [0, 0],
 			winner: "",
 		};
 
 		// define sets
-		newMatch.sets.push( [set1HomeScore, set1AwayScore] );
-		newMatch.sets.push( [set2HomeScore, set2AwayScore] );
-		newMatch.sets.push( [set3HomeScore, set3AwayScore] );
-		if (set4HomeScore && set4AwayScore) {
-			newMatch.sets.push( [set4HomeScore, set4AwayScore] );
+		newMatch.sets.push( [match.set1HomeScore, match.set1AwayScore] );
+		newMatch.sets.push( [match.set2HomeScore, match.set2AwayScore] );
+		newMatch.sets.push( [match.set3HomeScore, match.set3AwayScore] );
+		if (match.set4HomeScore && match.set4AwayScore) {
+			newMatch.sets.push( [match.set4HomeScore, match.set4AwayScore] );
 		}
-		if (set5HomeScore && set5AwayScore) {
-			newMatch.sets.push( [set5HomeScore, set5AwayScore] );
+		if (match.set5HomeScore && match.set5AwayScore) {
+			newMatch.sets.push( [match.set5HomeScore, match.set5AwayScore] );
 		}
 
 		// define match score
@@ -107,9 +101,9 @@ export class MatchService {
 
 		// define match winner
 		if (newMatch.score[0] > newMatch.score[1]) {
-			newMatch.winner = playerHome
+			newMatch.winner = match.playerHome
 		} else {
-			newMatch.winner = playerAway
+			newMatch.winner = match.playerAway
 		}
 
 		// dispach new match

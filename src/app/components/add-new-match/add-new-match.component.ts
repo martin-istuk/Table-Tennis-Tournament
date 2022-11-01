@@ -7,6 +7,7 @@ import { MatchService } from "src/app/services/match/match.service";
 import { PlayerService } from "src/app/services/player/player.service";
 import { MatchupData } from "src/app/interfaces/matchup-data.type";
 import { SetData } from "src/app/interfaces/set-data.type";
+import { AddNewMatch } from "src/app/interfaces/add-new-match.type";
 
 @Component({
 	selector: "app-add-new-match",
@@ -170,61 +171,38 @@ export class AddNewMatchComponent {
 	}
 
 	public onSubmit(): void {
+		const newMatchData: AddNewMatch = {
+			playerHome: this.playerHome,
+			playerAway: this.playerAway,
+			set1HomeScore: this.set1HomeScore,
+			set1AwayScore: this.set1AwayScore,
+			set2HomeScore: this.set2HomeScore,
+			set2AwayScore: this.set2AwayScore,
+			set3HomeScore: this.set3HomeScore,
+			set3AwayScore: this.set3AwayScore
+		};
 		if (
-			//check values and errors for matchup and first 3 sets
-			this.playerHome && this.playerAway && !this.matchupError &&
-			// set 1
-			(this.set1HomeScore !== undefined && this.set1HomeScore >= 0) &&
-			(this.set1AwayScore !== undefined && this.set1AwayScore >= 0) &&
-			!this.set1error &&
-			// set 2
-			(this.set2HomeScore !== undefined && this.set2HomeScore >= 0) &&
-			(this.set2AwayScore !== undefined && this.set2AwayScore >= 0) &&
-			!this.set2error &&
-			// set 3
-			(this.set3HomeScore !== undefined && this.set3HomeScore >= 0) &&
-			(this.set3AwayScore !== undefined && this.set3AwayScore >= 0) &&
-			!this.set3error
+			//check errors for matchup and first 3 sets
+			!this.matchupError &&	!this.set1error &&
+			!this.set2error && !this.set3error
 		) {
-			if (
-				// set 4
-				(this.set4HomeScore !== undefined && this.set4HomeScore >= 0) &&
-				(this.set4AwayScore !== undefined && this.set4AwayScore >= 0) &&
-				!this.set4error
-			) {
-				if (
-					// set 5
-					(this.set5HomeScore !== undefined && this.set5HomeScore >= 0) &&
-					(this.set5AwayScore !== undefined && this.set5AwayScore >= 0) &&
-					!this.set5error
-				) {
+			if (!this.set4error) {
+				if (!this.set5error) {
 					// 5 sets were played
-					this.matchService.addNewMatch(
-						this.playerHome, this.playerAway,
-						this.set1HomeScore, this.set1AwayScore,
-						this.set2HomeScore, this.set2AwayScore,
-						this.set3HomeScore, this.set3AwayScore,
-						this.set4HomeScore, this.set4AwayScore,
-						this.set5HomeScore, this.set5AwayScore
-					);
+					newMatchData.set4HomeScore = this.set4HomeScore;
+					newMatchData.set4AwayScore = this.set4AwayScore;
+					newMatchData.set5HomeScore = this.set5HomeScore;
+					newMatchData.set5AwayScore = this.set5AwayScore;
+					this.matchService.addNewMatch(newMatchData);
 				} else {
 					// 4 sets were played
-					this.matchService.addNewMatch(
-						this.playerHome, this.playerAway,
-						this.set1HomeScore, this.set1AwayScore,
-						this.set2HomeScore, this.set2AwayScore,
-						this.set3HomeScore, this.set3AwayScore,
-						this.set4HomeScore, this.set4AwayScore
-					);
+					newMatchData.set4HomeScore = this.set4HomeScore;
+					newMatchData.set4AwayScore = this.set4AwayScore;
+					this.matchService.addNewMatch(newMatchData);
 				}
 			} else {
 				// 3 sets were played
-				this.matchService.addNewMatch(
-					this.playerHome, this.playerAway,
-					this.set1HomeScore, this.set1AwayScore,
-					this.set2HomeScore, this.set2AwayScore,
-					this.set3HomeScore, this.set3AwayScore
-				);
+				this.matchService.addNewMatch(newMatchData);
 			}
 		}
 	}
