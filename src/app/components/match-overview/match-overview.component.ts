@@ -12,18 +12,21 @@ import { Match } from "src/app/interfaces/match.model";
 	styleUrls: ["./match-overview.component.scss"],
 })
 export class MatchOverviewComponent {
-	constructor(private route: ActivatedRoute, private matchService: MatchService) {}
+	constructor(
+		private route: ActivatedRoute,
+		private matchService: MatchService
+	) {}
 
 	private routeId$: Observable<string | null> = this.route.paramMap.pipe(
-		map( (params: ParamMap) => params.get('id') )
+		map((params: ParamMap) => params.get("id"))
 	);
 
 	public match$: Observable<Match | null> = this.routeId$.pipe(
-		switchMap( (id: string | null) => {
+		switchMap((id: string | null) => {
 			if (!id) {
 				return EMPTY;
 			}
 			return this.matchService.getMatchById(id);
-		}),
+		})
 	);
 }

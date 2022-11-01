@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 
 import { Player } from "src/app/interfaces/player.model";
 import { Match } from "src/app/interfaces/match.model";
@@ -109,5 +109,12 @@ export class PlayerService {
 		newPlayerArray.push(playerHome, playerAway);
 		newPlayerArray.sort( (a, b) => { return b.setWins - a.setWins }	);
 		this._playerArray$.next(newPlayerArray);
+	}
+
+	public getPlayerById(id: string): Observable<Player> {
+		const player: Player = this._playerArray$.getValue().filter( (player: Player) => {
+			return player.id === id
+		} )[0];
+		return of(player);
 	}
 }
