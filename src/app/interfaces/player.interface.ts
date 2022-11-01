@@ -3,5 +3,5 @@ export interface IPlayer {
 	name: string;
 	age: number;
 	matchIds: Array<string>;
-	winRate: number;
+	setWins: number;
 }

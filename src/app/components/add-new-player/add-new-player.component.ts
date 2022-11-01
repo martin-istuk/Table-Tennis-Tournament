@@ -1,11 +1,9 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 
-import { Observable, Subscription } from "rxjs";
+import { Observable } from "rxjs";
 
 import { Player } from "src/app/interfaces/player.model";
-import { MatchService } from "src/app/services/match/match.service";
 import { PlayerService } from "src/app/services/player/player.service";
 
 @Component({
@@ -13,12 +11,10 @@ import { PlayerService } from "src/app/services/player/player.service";
 	templateUrl: "./add-new-player.component.html",
 	styleUrls: ["./add-new-player.component.scss"],
 })
-export class AddNewPlayerComponent implements OnDestroy {
+export class AddNewPlayerComponent {
 	constructor(
-		private matchService: MatchService,
 		private playerService: PlayerService,
-		private formBuilder: FormBuilder,
-		private router: Router
+		private formBuilder: FormBuilder
 	) {}
 
 	public addNewPlayerForm: FormGroup = this.formBuilder.group(
@@ -33,27 +29,16 @@ export class AddNewPlayerComponent implements OnDestroy {
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
 
-	private subscription?: Subscription;
-
 	public onSubmit(event: Event): void {
 		event.preventDefault();
 
-		this.subscription = this.playerService
-			.addNewPlayer(
-				this.addNewPlayerForm.controls["name"].value,
-				this.addNewPlayerForm.controls["age"].value
-			)
-			.subscribe({
-				next: () => {
-					this.router.navigate(["standings"]);
-				},
-				error: (error: Error) => {
-					window.alert(error);
-				},
-			});
-	}
+		const name: string = this.addNewPlayerForm.controls["name"].value;
+		const age: number = this.addNewPlayerForm.controls["age"].value;
 
-	ngOnDestroy(): void {
-		this.subscription?.unsubscribe();
+		if (this.playerService.checkNameAvailability(name)) {
+			this.playerService.addNewPlayer(name, age);
+		} else {
+			window.alert("That name is already taken.")
+		}
 	}
 }

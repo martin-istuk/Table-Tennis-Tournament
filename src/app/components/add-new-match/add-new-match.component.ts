@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from "@angular/core";
 
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Observable } from "rxjs";
 
 import { Player } from "src/app/interfaces/player.model";
 import { MatchService } from "src/app/services/match/match.service";
@@ -14,11 +13,10 @@ import { SetData } from "src/app/interfaces/set-data.type";
 	templateUrl: "./add-new-match.component.html",
 	styleUrls: ["./add-new-match.component.scss"],
 })
-export class AddNewMatchComponent implements OnInit, OnDestroy {
+export class AddNewMatchComponent {
 	constructor(
 		private matchService: MatchService,
 		private playerService: PlayerService,
-		private router: Router
 	) {}
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
@@ -46,27 +44,12 @@ export class AddNewMatchComponent implements OnInit, OnDestroy {
 	public submitDisabled: boolean = true;
 
 	private updateSubmitDisabled(): void {
-		console.log("-------------------------------------------");
-		console.log("matchupError: " + this.matchupError);
-		console.log("set1error: " + this.set1error);
-		console.log("set2error: " + this.set2error);
-		console.log("set3error: " + this.set3error);
-		console.log("set4visibility: " + this.set4visibility);
-		console.log("set4error: " + this.set4error);
-		console.log("set5visibility: " + this.set5visibility);
-		console.log("set5error: " + this.set5error);
-		console.log("submit disabled: " + this.submitDisabled);
-		console.log("-------------------------------------------");
 		this.submitDisabled = Boolean(
 			this.matchupError ||
 			this.set1error || this.set2error || this.set3error ||
 			(this.set4visibility && this.set4error) ||
 			(this.set5visibility && this.set5error)
 		);
-	}
-
-	ngOnInit(): void {
-		console.log(this.submitDisabled)
 	}
 
 	public updatePlayer(matchupData: MatchupData): void {
@@ -186,54 +169,63 @@ export class AddNewMatchComponent implements OnInit, OnDestroy {
 		this.updateSubmitDisabled();
 	}
 
-	private addMatchSubscription?: Subscription;
-	private addMatchObserver = {
-		next: () => this.router.navigate([""]),
-		error: (error: Error) => window.alert(error),
-	};
-
 	public onSubmit(): void {
 		if (
 			//check values and errors for matchup and first 3 sets
 			this.playerHome && this.playerAway && !this.matchupError &&
-			this.set1HomeScore && this.set1AwayScore && !this.set1error &&
-			this.set2HomeScore && this.set2AwayScore && !this.set2error &&
-			this.set3HomeScore && this.set3AwayScore && !this.set3error
+			// set 1
+			(this.set1HomeScore !== undefined && this.set1HomeScore >= 0) &&
+			(this.set1AwayScore !== undefined && this.set1AwayScore >= 0) &&
+			!this.set1error &&
+			// set 2
+			(this.set2HomeScore !== undefined && this.set2HomeScore >= 0) &&
+			(this.set2AwayScore !== undefined && this.set2AwayScore >= 0) &&
+			!this.set2error &&
+			// set 3
+			(this.set3HomeScore !== undefined && this.set3HomeScore >= 0) &&
+			(this.set3AwayScore !== undefined && this.set3AwayScore >= 0) &&
+			!this.set3error
 		) {
-			if (this.set4HomeScore && this.set4AwayScore && !this.set4error) {
-				if (this.set5HomeScore && this.set5AwayScore && !this.set5error) {
+			if (
+				// set 4
+				(this.set4HomeScore !== undefined && this.set4HomeScore >= 0) &&
+				(this.set4AwayScore !== undefined && this.set4AwayScore >= 0) &&
+				!this.set4error
+			) {
+				if (
+					// set 5
+					(this.set5HomeScore !== undefined && this.set5HomeScore >= 0) &&
+					(this.set5AwayScore !== undefined && this.set5AwayScore >= 0) &&
+					!this.set5error
+				) {
 					// 5 sets were played
-					this.addMatchSubscription = this.matchService.addNewMatch(
+					this.matchService.addNewMatch(
 						this.playerHome, this.playerAway,
 						this.set1HomeScore, this.set1AwayScore,
 						this.set2HomeScore, this.set2AwayScore,
-						this.set3HomeScore, this.set3AwayScore
-					).subscribe(this.addMatchObserver);
+						this.set3HomeScore, this.set3AwayScore,
+						this.set4HomeScore, this.set4AwayScore,
+						this.set5HomeScore, this.set5AwayScore
+					);
 				} else {
 					// 4 sets were played
-					this.addMatchSubscription = this.matchService.addNewMatch(
+					this.matchService.addNewMatch(
 						this.playerHome, this.playerAway,
 						this.set1HomeScore, this.set1AwayScore,
 						this.set2HomeScore, this.set2AwayScore,
 						this.set3HomeScore, this.set3AwayScore,
 						this.set4HomeScore, this.set4AwayScore
-					).subscribe(this.addMatchObserver);
+					);
 				}
 			} else {
 				// 3 sets were played
-				this.addMatchSubscription = this.matchService.addNewMatch(
+				this.matchService.addNewMatch(
 					this.playerHome, this.playerAway,
 					this.set1HomeScore, this.set1AwayScore,
 					this.set2HomeScore, this.set2AwayScore,
-					this.set3HomeScore, this.set3AwayScore,
-					this.set4HomeScore, this.set4AwayScore,
-					this.set5HomeScore, this.set5AwayScore
-				).subscribe(this.addMatchObserver);
+					this.set3HomeScore, this.set3AwayScore
+				);
 			}
 		}
-	}
-
-	ngOnDestroy(): void {
-		this.addMatchSubscription?.unsubscribe();
 	}
 }

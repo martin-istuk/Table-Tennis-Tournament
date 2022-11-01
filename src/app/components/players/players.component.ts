@@ -18,7 +18,7 @@ export class PlayersComponent {
 		"name",
 		"age",
 		"gamesPlayed",
-		"winRate",
+		"setWins",
 	];
 
 	public playerList$: Observable<Array<Player>> =
