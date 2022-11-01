@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, of, Observable } from "rxjs";
 
 import { Match } from "src/app/interfaces/match.model";
 import { PlayerService } from "../player/player.service";
@@ -121,5 +121,12 @@ export class MatchService {
 		this.playerService.updatePlayersData(newMatch);
 
 		this.router.navigate([""]);
+	}
+
+	public getMatchById(id: string): Observable<Match> {
+		const match: Match = this._matchArray$.getValue().filter( (match: Match) => {
+			return match.id === id
+		} )[0];
+		return of(match);
 	}
 }

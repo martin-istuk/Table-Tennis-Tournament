@@ -12,7 +12,13 @@
 		<!-- Player-ID Column -->
 		<ng-container matColumnDef="id">
 			<th mat-header-cell *matHeaderCellDef>Player ID</th>
-			<td mat-cell *matCellDef="let player">{{ player.id }}</td>
+			<td mat-cell *matCellDef="let player">
+				<button
+					mat-stroked-button
+					[routerLink]="['/player-overview/' + player.id]"
+					>{{ player.id }} <mat-icon>chevron_right</mat-icon>
+				</button>
+			</td>
 		</ng-container>
 
 		<!-- Player-Name Column -->

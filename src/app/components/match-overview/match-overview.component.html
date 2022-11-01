@@ -1,1 +1,25 @@
-<p>match-overview works!</p>
+<h2>Match ID</h2>
+<p>{{ (match$ | async)?.id }}</p>
+
+<h2>Matchup</h2>
+<p>{{ (match$ | async)?.playerHome }} -VS- {{ (match$ | async)?.playerAway }}</p>
+
+<h2>Score</h2>
+<div *ngIf="(match$ | async)?.score as score">
+	<p>{{ score[0] }}:{{ score[1] }}</p>
+</div>
+
+<h2>Sets</h2>
+<div class="scoreSheet">
+	<div>
+		<p>&nbsp;</p>
+		<p>{{ (match$ | async)?.playerHome }}</p>
+		<p>{{ (match$ | async)?.playerAway }}</p>
+	</div>
+	<div class="scoreBox">
+		<div *ngFor="let set of (match$ | async)?.sets; index as setIndex" class="column">
+			<p class="setIndex">{{ "S" + (setIndex + 1) }}</p>
+			<p *ngFor="let p of [].constructor(2); index as i">{{ set[i] }}</p>
+		</div>
+	</div>
+</div>
