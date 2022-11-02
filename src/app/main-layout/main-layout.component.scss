@@ -38,6 +38,9 @@
 @media only screen and (max-width: 600px) {
 	:host {
 		padding: 0;
+		nav button.cdk-focused {
+			background: none;
+		}
 		section {
 			margin-top: 0;
 			padding: 1rem 0;
