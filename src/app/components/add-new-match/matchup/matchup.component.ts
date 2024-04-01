@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 
 import { Observable, Subscription } from "rxjs";
 
@@ -7,11 +7,18 @@ import { nameMatchValidator } from "src/app/validators/name-match-validator.dire
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
 import { MatchupData } from "src/app/interfaces/matchup-data.type";
+import { MatIconModule } from "@angular/material/icon";
+import { MatOptionModule } from "@angular/material/core";
+import { NgFor, NgIf, AsyncPipe } from "@angular/common";
+import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
-	selector: "app-matchup",
-	templateUrl: "./matchup.component.html",
-	styleUrls: ["./matchup.component.scss"],
+    selector: "app-matchup",
+    templateUrl: "./matchup.component.html",
+    styleUrls: ["./matchup.component.scss"],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, MatIconModule, NgIf, AsyncPipe]
 })
 export class MatchupComponent {
 	constructor(

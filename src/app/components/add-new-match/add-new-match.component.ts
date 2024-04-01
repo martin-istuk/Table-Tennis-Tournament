@@ -8,11 +8,19 @@ import { PlayerService } from "src/app/services/player/player.service";
 import { MatchupData } from "src/app/interfaces/matchup-data.type";
 import { SetData } from "src/app/interfaces/set-data.type";
 import { AddNewMatch } from "src/app/interfaces/add-new-match.type";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { NgIf } from "@angular/common";
+import { SetComponent } from "./set/set.component";
+import { MatchupComponent } from "./matchup/matchup.component";
 
 @Component({
-	selector: "app-add-new-match",
-	templateUrl: "./add-new-match.component.html",
-	styleUrls: ["./add-new-match.component.scss"],
+    selector: "app-add-new-match",
+    templateUrl: "./add-new-match.component.html",
+    styleUrls: ["./add-new-match.component.scss"],
+    standalone: true,
+    imports: [MatchupComponent, SetComponent, NgIf, MatButtonModule, MatIconModule, MatFormFieldModule]
 })
 export class AddNewMatchComponent {
 	constructor(

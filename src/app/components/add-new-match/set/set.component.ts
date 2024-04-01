@@ -5,17 +5,22 @@ import {
 	Output,
 	EventEmitter,
 } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
 import { setScoreValidator } from "src/app/validators/set-score-validator.directive";
 import { SetData } from "src/app/interfaces/set-data.type";
+import { NgIf } from "@angular/common";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
-	selector: "app-set",
-	templateUrl: "./set.component.html",
-	styleUrls: ["./set.component.scss"],
+    selector: "app-set",
+    templateUrl: "./set.component.html",
+    styleUrls: ["./set.component.scss"],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf]
 })
 export class SetComponent implements OnDestroy {
 	constructor(private formBuilder: FormBuilder) {}

@@ -5,11 +5,14 @@ import { Observable, map, switchMap, EMPTY } from "rxjs";
 
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
+import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
-	selector: "app-player-overview",
-	templateUrl: "./player-overview.component.html",
-	styleUrls: ["./player-overview.component.scss"],
+    selector: "app-player-overview",
+    templateUrl: "./player-overview.component.html",
+    styleUrls: ["./player-overview.component.scss"],
+    standalone: true,
+    imports: [NgIf, AsyncPipe]
 })
 export class PlayerOverviewComponent {
 	constructor(

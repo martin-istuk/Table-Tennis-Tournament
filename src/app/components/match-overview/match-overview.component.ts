@@ -5,11 +5,14 @@ import { Observable, map, switchMap, EMPTY } from "rxjs";
 
 import { MatchService } from "src/app/services/match/match.service";
 import { Match } from "src/app/interfaces/match.model";
+import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 
 @Component({
-	selector: "app-match-overview",
-	templateUrl: "./match-overview.component.html",
-	styleUrls: ["./match-overview.component.scss"],
+    selector: "app-match-overview",
+    templateUrl: "./match-overview.component.html",
+    styleUrls: ["./match-overview.component.scss"],
+    standalone: true,
+    imports: [NgIf, NgFor, AsyncPipe]
 })
 export class MatchOverviewComponent {
 	constructor(

@@ -2,7 +2,7 @@
 	<nav>
 		<button
 			*ngFor="let link of navigationLinks"
-			mat-button
+			mat-raised-button
 			[routerLink]="link.url"
 			[routerLinkActive]="'active'"
 			[routerLinkActiveOptions]="{ exact: true }"
