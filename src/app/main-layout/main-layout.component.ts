@@ -1,27 +1,35 @@
 import { Component } from "@angular/core";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { MatButtonModule } from "@angular/material/button";
-import { NgFor } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { MatToolbarModule } from "@angular/material/toolbar";
 
 @Component({
-    selector: "app-main-layout",
-    templateUrl: "./main-layout.component.html",
-    styleUrls: ["./main-layout.component.scss"],
-    standalone: true,
-    imports: [MatToolbarModule, NgFor, MatButtonModule, RouterLink, RouterLinkActive, RouterOutlet]
+	selector: "app-main-layout",
+	templateUrl: "./main-layout.component.html",
+	styleUrls: ["./main-layout.component.scss"],
+	standalone: true,
+	imports: [
+		MatToolbarModule,
+		CommonModule,
+		MatButtonModule,
+		RouterLink,
+		RouterLinkActive,
+		RouterOutlet,
+	],
 })
 export class MainLayoutComponent {
 	public readonly navigationLinks: Array<{
-		url: string, title: string
+		url: string;
+		title: string;
 	}> = [
 		{
 			url: "",
-			title: "Matches"
+			title: "Matches",
 		},
 		{
 			url: "players",
-			title: "Players"
-		}
+			title: "Players",
+		},
 	];
 }
