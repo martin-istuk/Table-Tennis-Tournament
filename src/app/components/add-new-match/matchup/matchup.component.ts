@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from "@angular/core";
+import { Component, Output, EventEmitter, inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 
 import { Observable, Subscription } from "rxjs";
@@ -15,16 +15,75 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
     selector: "app-matchup",
-    templateUrl: "./matchup.component.html",
-    styleUrls: ["./matchup.component.scss"],
+    template: `
+		<h3>Matchup</h3>
+
+		<form [formGroup]="matchForm">
+			<mat-form-field appearance="outline">
+				<mat-label>Player 1</mat-label>
+				<mat-select formControlName="playerHome">
+					<mat-option *ngFor="let player of players$ | async" [value]="player.name"
+						>{{ player.name }}
+					</mat-option>
+				</mat-select>
+				<mat-icon matPrefix>person</mat-icon>
+			</mat-form-field>
+			<mat-form-field appearance="outline">
+				<mat-label>Player 2</mat-label>
+				<mat-select formControlName="playerAway">
+					<mat-option *ngFor="let player of players$ | async" [value]="player.name">
+						{{ player.name }}
+					</mat-option>
+				</mat-select>
+				<mat-icon matPrefix>person</mat-icon>
+			</mat-form-field>
+		</form>
+
+		<p *ngIf="checkNameMatchError()" class="error">
+			Matchup must contain two different players!
+		</p>
+	`,
+    styles: `
+		:host {
+			display: grid;
+			justify-items: center;
+			width: 60%;
+			h3, p {
+				text-align: center;
+			}
+			h3 {
+				margin-bottom: 0;
+			}
+			form {
+				display: grid;
+				grid-template-columns: auto auto;
+				justify-items: center;
+				mat-form-field {
+					width: 150px;
+					padding: 3px;
+					::ng-deep .mat-form-field-wrapper {
+						padding-bottom: 0;
+					}
+				}
+			}
+			.error {
+				color: red;
+				font-weight: bold;
+				margin-bottom: 1rem;
+			}
+			@media only screen and (max-width: 600px) {
+				form {
+					grid-template-columns: auto;
+				}
+			}
+		}
+	`,
     standalone: true,
     imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, MatIconModule, NgIf, AsyncPipe]
 })
 export class MatchupComponent {
-	constructor(
-		private formBuilder: FormBuilder,
-		private playerService: PlayerService
-	) {}
+	private formBuilder = inject(FormBuilder);
+	private playerService = inject(PlayerService);
 
 	public matchForm: FormGroup = this.formBuilder.group(
 		{

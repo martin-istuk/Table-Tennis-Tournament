@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MatchOverviewComponent } from './match-overview.component';
+import { MatchOverviewComponent } from "./match-overview.component";
 
-describe('MatchOverviewComponent', () => {
+describe("MatchOverviewComponent", () => {
   let component: MatchOverviewComponent;
   let fixture: ComponentFixture<MatchOverviewComponent>;
 
@@ -17,7 +17,7 @@ describe('MatchOverviewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

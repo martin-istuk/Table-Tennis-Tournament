@@ -4,6 +4,7 @@ import {
 	Input,
 	Output,
 	EventEmitter,
+	inject,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 
@@ -17,13 +18,69 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
     selector: "app-set",
-    templateUrl: "./set.component.html",
-    styleUrls: ["./set.component.scss"],
+    template: `
+		<h3>Set {{ setIndex }}</h3>
+
+		<form [formGroup]="setForm">
+			<mat-form-field appearance="outline">
+				<input
+					matInput
+					formControlName="scoreHome"
+					type="number"
+					min="0"
+				/>
+			</mat-form-field>
+			<mat-form-field appearance="outline">
+				<input
+					matInput
+					formControlName="scoreAway"
+					type="number"
+					min="0"
+				/>
+			</mat-form-field>
+		</form>
+
+		<p *ngIf="checkPtsDifferenceError()" class="error">
+			Set must end with winning player gaining 11 points with at least 2 point margin --OR-- by gaining more than 11 points with exactly 2 point margin.
+		</p>
+	`,
+    styles: `
+		:host {
+			display: grid;
+			justify-items: center;
+			width: 60%;
+			h3, p {
+				text-align: center;
+			}
+			h3 {
+				margin-bottom: 0;
+			}
+			form {
+				display: grid;
+				grid-template-columns: auto auto;
+				justify-items: center;
+				mat-form-field {
+					width: 56px;
+					text-align: center;
+					font-weight: bold;
+					padding: 3px;
+					::ng-deep .mat-form-field-wrapper {
+						padding-bottom: 0;
+					}
+				}
+			}
+			.error {
+				color: red;
+				font-weight: bold;
+				margin-bottom: 1rem;
+			}
+		}
+	`,
     standalone: true,
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf]
 })
 export class SetComponent implements OnDestroy {
-	constructor(private formBuilder: FormBuilder) {}
+	private formBuilder = inject(FormBuilder);
 
 	public setForm: FormGroup = this.formBuilder.group(
 		{

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -10,7 +10,8 @@ import { Match } from "src/app/interfaces/match.model";
 	providedIn: "root",
 })
 export class PlayerService {
-	constructor(private router: Router) {}
+	private router = inject(Router);
+
 	private _playerArray$ = new BehaviorSubject<Array<Player>>(
 		[
 			{

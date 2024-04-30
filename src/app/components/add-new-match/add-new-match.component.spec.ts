@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AddNewMatchComponent } from './add-new-match.component';
+import { AddNewMatchComponent } from "./add-new-match.component";
 
-describe('AddNewMatchComponent', () => {
+describe("AddNewMatchComponent", () => {
   let component: AddNewMatchComponent;
   let fixture: ComponentFixture<AddNewMatchComponent>;
 
@@ -17,7 +17,7 @@ describe('AddNewMatchComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

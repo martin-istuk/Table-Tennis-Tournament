@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 
 import { Observable } from "rxjs";
 
@@ -17,16 +17,65 @@ import { MatchupComponent } from "./matchup/matchup.component";
 
 @Component({
     selector: "app-add-new-match",
-    templateUrl: "./add-new-match.component.html",
-    styleUrls: ["./add-new-match.component.scss"],
+    template: `
+		<h2>Add new match</h2>
+
+		<!-- MATCHUP INPUTS -->
+		<app-matchup (playerChangeEvent)="updatePlayer($event)"></app-matchup>
+
+		<!-- SET INPUTS -->
+		<app-set
+			[setIndex]="1"
+			(scoreChangeEvent)="updateScoreAndStructure($event)"
+		></app-set>
+		<app-set
+			[setIndex]="2"
+			(scoreChangeEvent)="updateScoreAndStructure($event)"
+		></app-set>
+		<app-set
+			[setIndex]="3"
+			(scoreChangeEvent)="updateScoreAndStructure($event)"
+		></app-set>
+		<app-set
+			*ngIf="set4visibility"
+			[setIndex]="4"
+			(scoreChangeEvent)="updateScoreAndStructure($event)"
+		></app-set>
+		<app-set
+			*ngIf="set5visibility"
+			[setIndex]="5"
+			(scoreChangeEvent)="updateScoreAndStructure($event)"
+		></app-set>
+
+		<!-- SUBMIT BUTTON -->
+		<button
+			(click)="onSubmit()"
+			[disabled]="submitDisabled"
+			mat-raised-button
+			color="primary"
+			type="button"
+		>
+			<mat-icon matPrefix>add</mat-icon>Add Match
+		</button>
+	`,
+    styles: `
+		:host {
+			display: grid;
+		justify-items: center;
+			h2 {
+				text-align: center;
+			}
+			button {
+				margin-top: 1rem;
+			}
+		}
+	`,
     standalone: true,
     imports: [MatchupComponent, SetComponent, NgIf, MatButtonModule, MatIconModule, MatFormFieldModule]
 })
 export class AddNewMatchComponent {
-	constructor(
-		private matchService: MatchService,
-		private playerService: PlayerService,
-	) {}
+	private matchService = inject(MatchService);
+	private playerService = inject(PlayerService);
 
 	public players$: Observable<Array<Player>> = this.playerService.playerArray$;
 
