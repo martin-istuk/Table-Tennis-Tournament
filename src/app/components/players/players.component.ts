@@ -1,17 +1,25 @@
 import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
 import { Observable } from "rxjs";
+import { MatTableModule } from "@angular/material/table";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
-import { MatTableModule } from "@angular/material/table";
-import { NgIf, AsyncPipe } from "@angular/common";
-import { MatIconModule } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
 
 @Component({
 	selector: "app-players",
+	standalone: true,
+	imports: [
+		CommonModule,
+		RouterLink,
+		MatButtonModule,
+		MatIconModule,
+		MatTableModule,
+	],
 	template: `
 		<button
 			mat-raised-button
@@ -22,7 +30,8 @@ import { MatButtonModule } from "@angular/material/button";
 			<mat-icon>add</mat-icon>Add New Player
 		</button>
 
-		<div *ngIf="playerList$ | async as playerList; else errorGettingData">
+		@if (playerList$ | async; as playerList) {
+		<div>
 			<table mat-table [dataSource]="playerList">
 				<!-- Player-ID Column -->
 				<ng-container matColumnDef="id">
@@ -31,7 +40,8 @@ import { MatButtonModule } from "@angular/material/button";
 						<button
 							mat-stroked-button
 							[routerLink]="['/player-overview/' + player.id]"
-							>{{ player.id }}
+						>
+							{{ player.id }}
 						</button>
 					</td>
 				</ng-container>
@@ -51,7 +61,9 @@ import { MatButtonModule } from "@angular/material/button";
 				<!-- Score Column -->
 				<ng-container matColumnDef="gamesPlayed">
 					<th mat-header-cell *matHeaderCellDef>Games Played</th>
-					<td mat-cell *matCellDef="let player">{{ player.matchIds.length }}</td>
+					<td mat-cell *matCellDef="let player">
+						{{ player.matchIds.length }}
+					</td>
 				</ng-container>
 
 				<!-- Player-Away Column -->
@@ -64,6 +76,9 @@ import { MatButtonModule } from "@angular/material/button";
 				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 			</table>
 		</div>
+		} @else {
+		<ng-container [ngTemplateOutlet]="errorGettingData" />
+		}
 
 		<ng-template #errorGettingData>
 			<p class="error">Error getting data!</p>
@@ -110,8 +125,6 @@ import { MatButtonModule } from "@angular/material/button";
 			color: red;
 		}
 	`,
-	standalone: true,
-	imports: [MatButtonModule, RouterLink, MatIconModule, NgIf, MatTableModule, AsyncPipe]
 })
 export class PlayersComponent {
 	private playerService = inject(PlayerService);

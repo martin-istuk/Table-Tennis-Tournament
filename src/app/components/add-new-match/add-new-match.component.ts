@@ -1,6 +1,10 @@
 import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 import { Observable } from "rxjs";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 import { Player } from "src/app/interfaces/player.model";
 import { MatchService } from "src/app/services/match/match.service";
@@ -8,16 +12,21 @@ import { PlayerService } from "src/app/services/player/player.service";
 import { MatchupData } from "src/app/interfaces/matchup-data.type";
 import { SetData } from "src/app/interfaces/set-data.type";
 import { AddNewMatch } from "src/app/interfaces/add-new-match.type";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatButtonModule } from "@angular/material/button";
-import { NgIf } from "@angular/common";
 import { SetComponent } from "./set/set.component";
 import { MatchupComponent } from "./matchup/matchup.component";
 
 @Component({
-    selector: "app-add-new-match",
-    template: `
+	selector: "app-add-new-match",
+	standalone: true,
+	imports: [
+		CommonModule,
+		MatButtonModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatchupComponent,
+		SetComponent,
+	],
+	template: `
 		<h2>Add new match</h2>
 
 		<!-- MATCHUP INPUTS -->
@@ -36,16 +45,17 @@ import { MatchupComponent } from "./matchup/matchup.component";
 			[setIndex]="3"
 			(scoreChangeEvent)="updateScoreAndStructure($event)"
 		></app-set>
+		@if (set4visibility) {
 		<app-set
-			*ngIf="set4visibility"
 			[setIndex]="4"
 			(scoreChangeEvent)="updateScoreAndStructure($event)"
 		></app-set>
+		} @if (set5visibility) {
 		<app-set
-			*ngIf="set5visibility"
 			[setIndex]="5"
 			(scoreChangeEvent)="updateScoreAndStructure($event)"
 		></app-set>
+		}
 
 		<!-- SUBMIT BUTTON -->
 		<button
@@ -58,7 +68,7 @@ import { MatchupComponent } from "./matchup/matchup.component";
 			<mat-icon matPrefix>add</mat-icon>Add Match
 		</button>
 	`,
-    styles: `
+	styles: `
 		:host {
 			display: grid;
 		justify-items: center;
@@ -70,8 +80,6 @@ import { MatchupComponent } from "./matchup/matchup.component";
 			}
 		}
 	`,
-    standalone: true,
-    imports: [MatchupComponent, SetComponent, NgIf, MatButtonModule, MatIconModule, MatFormFieldModule]
 })
 export class AddNewMatchComponent {
 	private matchService = inject(MatchService);
@@ -104,9 +112,11 @@ export class AddNewMatchComponent {
 	private updateSubmitDisabled(): void {
 		this.submitDisabled = Boolean(
 			this.matchupError ||
-			this.set1error || this.set2error || this.set3error ||
-			(this.set4visibility && this.set4error) ||
-			(this.set5visibility && this.set5error)
+				this.set1error ||
+				this.set2error ||
+				this.set3error ||
+				(this.set4visibility && this.set4error) ||
+				(this.set5visibility && this.set5error)
 		);
 	}
 
@@ -128,31 +138,31 @@ export class AddNewMatchComponent {
 				this.set1error = setData.error;
 				this.set1HomeScore = setData.scoreHome;
 				this.set1AwayScore = setData.scoreAway;
-				break
+				break;
 			}
 			case 2: {
 				this.set2error = setData.error;
 				this.set2HomeScore = setData.scoreHome;
 				this.set2AwayScore = setData.scoreAway;
-				break
+				break;
 			}
 			case 3: {
 				this.set3error = setData.error;
 				this.set3HomeScore = setData.scoreHome;
 				this.set3AwayScore = setData.scoreAway;
-				break
+				break;
 			}
 			case 4: {
 				this.set4error = setData.error;
 				this.set4HomeScore = setData.scoreHome;
 				this.set4AwayScore = setData.scoreAway;
-				break
+				break;
 			}
 			case 5: {
 				this.set5error = setData.error;
 				this.set5HomeScore = setData.scoreHome;
 				this.set5AwayScore = setData.scoreAway;
-				break
+				break;
 			}
 		}
 
@@ -163,50 +173,60 @@ export class AddNewMatchComponent {
 		if (
 			// check if first 3 sets have all inputs filled and no validation errors
 			// set 1
-			(this.set1HomeScore !== undefined && this.set1HomeScore >= 0) &&
-			(this.set1AwayScore !== undefined && this.set1AwayScore >= 0) &&
+			this.set1HomeScore !== undefined &&
+			this.set1HomeScore >= 0 &&
+			this.set1AwayScore !== undefined &&
+			this.set1AwayScore >= 0 &&
 			!this.set1error &&
 			// set 2
-			(this.set2HomeScore !== undefined && this.set2HomeScore >= 0) &&
-			(this.set2AwayScore !== undefined && this.set2AwayScore >= 0) &&
+			this.set2HomeScore !== undefined &&
+			this.set2HomeScore >= 0 &&
+			this.set2AwayScore !== undefined &&
+			this.set2AwayScore >= 0 &&
 			!this.set2error &&
 			// set 3
-			(this.set3HomeScore !== undefined && this.set3HomeScore >= 0) &&
-			(this.set3AwayScore !== undefined && this.set3AwayScore >= 0) &&
+			this.set3HomeScore !== undefined &&
+			this.set3HomeScore >= 0 &&
+			this.set3AwayScore !== undefined &&
+			this.set3AwayScore >= 0 &&
 			!this.set3error
 		) {
 			if (
 				// check if first 3 sets were won by the same player
-				(
-					this.set1HomeScore > this.set1AwayScore && !this.set1error &&  // set 1
-					this.set2HomeScore > this.set2AwayScore && !this.set2error &&  // set 2
-					this.set3HomeScore > this.set3AwayScore && !this.set3error  // set 3
-				) ||
-				(
-					this.set1HomeScore < this.set1AwayScore && !this.set1error &&  // set 1
-					this.set2HomeScore < this.set2AwayScore && !this.set2error &&  // set 2
-					this.set3HomeScore < this.set3AwayScore && !this.set3error  // set 3
-				)
+				(this.set1HomeScore > this.set1AwayScore &&
+					!this.set1error && // set 1
+					this.set2HomeScore > this.set2AwayScore &&
+					!this.set2error && // set 2
+					this.set3HomeScore > this.set3AwayScore &&
+					!this.set3error) || // set 3
+				(this.set1HomeScore < this.set1AwayScore &&
+					!this.set1error && // set 1
+					this.set2HomeScore < this.set2AwayScore &&
+					!this.set2error && // set 2
+					this.set3HomeScore < this.set3AwayScore &&
+					!this.set3error) // set 3
 			) {
 				// match ended in 3 sets
 				this.set4visibility = false;
 				this.set5visibility = false;
 			} else {
 				// set 4 needs to be played
-				this.set4visibility = (!this.set1error && !this.set2error && !this.set3error);
+				this.set4visibility =
+					!this.set1error && !this.set2error && !this.set3error;
 				if (
 					// check if set 4 has all inputs filled and no validation error
-					(this.set4HomeScore !== undefined && this.set4HomeScore >= 0) &&
-					(this.set4AwayScore !== undefined && this.set4AwayScore >= 0) &&
+					this.set4HomeScore !== undefined &&
+					this.set4HomeScore >= 0 &&
+					this.set4AwayScore !== undefined &&
+					this.set4AwayScore >= 0 &&
 					!this.set4error &&
 					// check if, after 4 sets, playerHome did NOT
 					// win exactly 2 sets (result is NOT 2:2)
-					(
-						Number(this.set1HomeScore > this.set1AwayScore) +
+					Number(this.set1HomeScore > this.set1AwayScore) +
 						Number(this.set2HomeScore > this.set2AwayScore) +
 						Number(this.set3HomeScore > this.set3AwayScore) +
-						Number(this.set4HomeScore > this.set4AwayScore) !==	2
-					)
+						Number(this.set4HomeScore > this.set4AwayScore) !==
+						2
 				) {
 					// match ended in 4 sets
 					this.set5visibility = false;
@@ -216,9 +236,11 @@ export class AddNewMatchComponent {
 						// check if set 4 is finished and valid
 						!this.set4error
 					) {
-						this.set5visibility = (
-							!this.set1error && !this.set2error && !this.set3error && !this.set4error
-						);
+						this.set5visibility =
+							!this.set1error &&
+							!this.set2error &&
+							!this.set3error &&
+							!this.set4error;
 					}
 				}
 			}
@@ -236,12 +258,14 @@ export class AddNewMatchComponent {
 			set2HomeScore: this.set2HomeScore,
 			set2AwayScore: this.set2AwayScore,
 			set3HomeScore: this.set3HomeScore,
-			set3AwayScore: this.set3AwayScore
+			set3AwayScore: this.set3AwayScore,
 		};
 		if (
 			//check errors for matchup and first 3 sets
-			!this.matchupError &&	!this.set1error &&
-			!this.set2error && !this.set3error
+			!this.matchupError &&
+			!this.set1error &&
+			!this.set2error &&
+			!this.set3error
 		) {
 			if (!this.set4error) {
 				if (!this.set5error) {

@@ -1,5 +1,10 @@
 import { Component, inject } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import {
+	FormBuilder,
+	FormGroup,
+	Validators,
+	ReactiveFormsModule,
+} from "@angular/forms";
 
 import { Observable } from "rxjs";
 
@@ -11,27 +16,43 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
-    selector: "app-add-new-player",
-    template: `
+	selector: "app-add-new-player",
+	standalone: true,
+	imports: [
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatIconModule,
+		MatButtonModule,
+	],
+	template: `
 		<h2>Add new player</h2>
 
 		<form [formGroup]="addNewPlayerForm">
 			<mat-form-field appearance="outline">
 				<mat-label>Name</mat-label>
-			<input matInput formControlName="name" required>
-			<mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
+				<input matInput formControlName="name" required />
+				<mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
 			</mat-form-field>
 
 			<mat-form-field appearance="outline">
 				<mat-label>Age</mat-label>
-			<input matInput formControlName="age" type="number" min="1" required>
-			<mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
+				<input matInput formControlName="age" type="number" min="1" required />
+				<mat-icon matPrefix>sentiment_very_satisfied</mat-icon>
 			</mat-form-field>
 
-			<button [disabled]="addNewPlayerForm.invalid" (click)="onSubmit($event)" mat-raised-button color="primary" type="button"><mat-icon matPrefix>add</mat-icon>Add Player</button>
+			<button
+				[disabled]="addNewPlayerForm.invalid"
+				(click)="onSubmit($event)"
+				mat-raised-button
+				color="primary"
+				type="button"
+			>
+				<mat-icon matPrefix>add</mat-icon>Add Player
+			</button>
 		</form>
 	`,
-    styles: `
+	styles: `
 		:host {
 			h2 {
 				text-align: center;
@@ -48,8 +69,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 			}
 		}
 	`,
-    standalone: true,
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule]
 })
 export class AddNewPlayerComponent {
 	private playerService = inject(PlayerService);
@@ -76,7 +95,7 @@ export class AddNewPlayerComponent {
 		if (this.playerService.checkNameAvailability(name)) {
 			this.playerService.addNewPlayer(name, age);
 		} else {
-			window.alert("That name is already taken.")
+			window.alert("That name is already taken.");
 		}
 	}
 }

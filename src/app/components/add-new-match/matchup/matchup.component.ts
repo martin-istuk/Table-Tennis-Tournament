@@ -1,28 +1,44 @@
 import { Component, Output, EventEmitter, inject } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import {
+	FormBuilder,
+	FormGroup,
+	Validators,
+	ReactiveFormsModule,
+} from "@angular/forms";
 
 import { Observable, Subscription } from "rxjs";
+import { MatIconModule } from "@angular/material/icon";
+import { MatOptionModule } from "@angular/material/core";
+import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { nameMatchValidator } from "src/app/validators/name-match-validator.directive";
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
 import { MatchupData } from "src/app/interfaces/matchup-data.type";
-import { MatIconModule } from "@angular/material/icon";
-import { MatOptionModule } from "@angular/material/core";
-import { NgFor, NgIf, AsyncPipe } from "@angular/common";
-import { MatSelectModule } from "@angular/material/select";
-import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
-    selector: "app-matchup",
-    template: `
+	selector: "app-matchup",
+	standalone: true,
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		MatOptionModule,
+		MatIconModule,
+	],
+	template: `
 		<h3>Matchup</h3>
 
 		<form [formGroup]="matchForm">
 			<mat-form-field appearance="outline">
 				<mat-label>Player 1</mat-label>
 				<mat-select formControlName="playerHome">
-					<mat-option *ngFor="let player of players$ | async" [value]="player.name"
+					<mat-option
+						*ngFor="let player of players$ | async"
+						[value]="player.name"
 						>{{ player.name }}
 					</mat-option>
 				</mat-select>
@@ -31,7 +47,10 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 			<mat-form-field appearance="outline">
 				<mat-label>Player 2</mat-label>
 				<mat-select formControlName="playerAway">
-					<mat-option *ngFor="let player of players$ | async" [value]="player.name">
+					<mat-option
+						*ngFor="let player of players$ | async"
+						[value]="player.name"
+					>
 						{{ player.name }}
 					</mat-option>
 				</mat-select>
@@ -39,11 +58,11 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 			</mat-form-field>
 		</form>
 
-		<p *ngIf="checkNameMatchError()" class="error">
-			Matchup must contain two different players!
-		</p>
+		@if (checkNameMatchError()) {
+		<p class="error">Matchup must contain two different players!</p>
+		}
 	`,
-    styles: `
+	styles: `
 		:host {
 			display: grid;
 			justify-items: center;
@@ -78,8 +97,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 			}
 		}
 	`,
-    standalone: true,
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, MatIconModule, NgIf, AsyncPipe]
 })
 export class MatchupComponent {
 	private formBuilder = inject(FormBuilder);
@@ -91,17 +108,15 @@ export class MatchupComponent {
 			playerAway: ["", [Validators.required]],
 		},
 		{
-			validators: [nameMatchValidator("playerHome", "playerAway")]
+			validators: [nameMatchValidator("playerHome", "playerAway")],
 		}
 	);
 
 	public checkNameMatchError(): boolean {
 		return (
 			this.matchForm.getError("matchupError") &&
-			(
-				this.matchForm.get("playerHome")?.dirty ||
-				this.matchForm.get("playerAway")?.dirty
-			)
+			(this.matchForm.get("playerHome")?.dirty ||
+				this.matchForm.get("playerAway")?.dirty)
 		);
 	}
 
@@ -111,18 +126,17 @@ export class MatchupComponent {
 
 	private subscription: Subscription = this.matchForm.valueChanges.subscribe({
 		next: () => {
-			this.matchForm.updateValueAndValidity( {emitEvent: false} );
+			this.matchForm.updateValueAndValidity({ emitEvent: false });
 			const matchup: MatchupData = {
 				playerHome: this.matchForm.controls["playerHome"].value,
 				playerAway: this.matchForm.controls["playerAway"].value,
-				error: Boolean(this.checkNameMatchError())
-			}
+				error: Boolean(this.checkNameMatchError()),
+			};
 			this.playerChangeEvent.emit(matchup);
-		}
+		},
 	});
 
 	ngOnDestroy(): void {
 		this.subscription?.unsubscribe();
 	}
-
 }

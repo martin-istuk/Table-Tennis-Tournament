@@ -1,25 +1,31 @@
 import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 
 import { Observable, map, switchMap, EMPTY } from "rxjs";
 
 import { MatchService } from "src/app/services/match/match.service";
 import { Match } from "src/app/interfaces/match.model";
-import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "app-match-overview",
-    template: `
+	selector: "app-match-overview",
+	standalone: true,
+	imports: [CommonModule],
+	template: `
 		<h2>Match ID</h2>
 		<p>{{ (match$ | async)?.id }}</p>
 
 		<h2>Matchup</h2>
-		<p>{{ (match$ | async)?.playerHome }} -VS- {{ (match$ | async)?.playerAway }}</p>
+		<p>
+			{{ (match$ | async)?.playerHome }} -VS- {{ (match$ | async)?.playerAway }}
+		</p>
 
 		<h2>Score</h2>
-		<div *ngIf="(match$ | async)?.score as score">
+		@if ((match$ | async)?.score; as score) {
+		<div>
 			<p>{{ score[0] }}:{{ score[1] }}</p>
 		</div>
+		}
 
 		<h2>Sets</h2>
 		<div class="scoreSheet">
@@ -29,14 +35,17 @@ import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 				<p>{{ (match$ | async)?.playerAway }}</p>
 			</div>
 			<div class="scoreBox">
-				<div *ngFor="let set of (match$ | async)?.sets; index as setIndex" class="column">
+				<div
+					*ngFor="let set of (match$ | async)?.sets; index as setIndex"
+					class="column"
+				>
 					<p class="setIndex">{{ "S" + (setIndex + 1) }}</p>
 					<p *ngFor="let p of [].constructor(2); index as i">{{ set[i] }}</p>
 				</div>
 			</div>
 		</div>
 	`,
-    styles: `
+	styles: `
 		:host {
 			display: grid;
 			grid-template-columns: auto;
@@ -73,8 +82,6 @@ import { NgIf, NgFor, AsyncPipe } from "@angular/common";
 			}
 		}
 	`,
-    standalone: true,
-    imports: [NgIf, NgFor, AsyncPipe]
 })
 export class MatchOverviewComponent {
 	private route = inject(ActivatedRoute);

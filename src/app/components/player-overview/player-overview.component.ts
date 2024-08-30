@@ -1,14 +1,16 @@
 import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 
 import { Observable, map, switchMap, EMPTY } from "rxjs";
 
 import { PlayerService } from "src/app/services/player/player.service";
 import { Player } from "src/app/interfaces/player.model";
-import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
 	selector: "app-player-overview",
+	standalone: true,
+	imports: [CommonModule],
 	template: `
 		<h2>Player ID</h2>
 		<p>{{ (player$ | async)?.id }}</p>
@@ -20,9 +22,11 @@ import { NgIf, AsyncPipe } from "@angular/common";
 		<p>{{ (player$ | async)?.age }}</p>
 
 		<h2>Games played</h2>
-		<div *ngIf="(player$ | async)?.matchIds as matches">
+		@if ((player$ | async)?.matchIds; as matches) {
+		<div>
 			<p>{{ matches.length }}</p>
 		</div>
+		}
 
 		<h2>Set wins</h2>
 		<p>{{ (player$ | async)?.setWins }}</p>
@@ -37,8 +41,6 @@ import { NgIf, AsyncPipe } from "@angular/common";
 			}
 		}
 `,
-	standalone: true,
-	imports: [NgIf, AsyncPipe]
 })
 export class PlayerOverviewComponent {
 	private route = inject(ActivatedRoute);

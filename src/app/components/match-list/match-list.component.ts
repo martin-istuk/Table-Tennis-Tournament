@@ -1,18 +1,26 @@
 import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
 
 import { Observable } from "rxjs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTableModule } from "@angular/material/table";
 
 import { MatchService } from "src/app/services/match/match.service";
 import { Match } from "src/app/interfaces/match.model";
-import { MatTableModule } from "@angular/material/table";
-import { NgIf, AsyncPipe } from "@angular/common";
-import { MatIconModule } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
-import { MatButtonModule } from "@angular/material/button";
 
 @Component({
-    selector: "app-match-list",
-    template: `
+	selector: "app-match-list",
+	standalone: true,
+	imports: [
+		CommonModule,
+		RouterLink,
+		MatButtonModule,
+		MatIconModule,
+		MatTableModule,
+	],
+	template: `
 		<button
 			mat-raised-button
 			color="primary"
@@ -22,7 +30,8 @@ import { MatButtonModule } from "@angular/material/button";
 			<mat-icon>add</mat-icon>Add New Match
 		</button>
 
-		<div *ngIf="matchList$ | async as matchList; else errorGettingData">
+		@if (matchList$ | async; as matchList) {
+		<div>
 			<table mat-table [dataSource]="matchList">
 				<!-- Match-Id Column -->
 				<ng-container matColumnDef="id">
@@ -31,7 +40,8 @@ import { MatButtonModule } from "@angular/material/button";
 						<button
 							mat-stroked-button
 							[routerLink]="['/match-overview/' + match.id]"
-							>{{ match.id }}
+						>
+							{{ match.id }}
 						</button>
 					</td>
 				</ng-container>
@@ -62,12 +72,15 @@ import { MatButtonModule } from "@angular/material/button";
 				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 			</table>
 		</div>
+		} @else {
+		<ng-container [ngTemplateOutlet]="errorGettingData" />
+		}
 
 		<ng-template #errorGettingData>
 			<p class="error">Error getting data!</p>
 		</ng-template>
 	`,
-    styles: `
+	styles: `
 		.addNew {
 			margin: auto;
 			display: block;
@@ -99,17 +112,11 @@ import { MatButtonModule } from "@angular/material/button";
 			}
 		}
 	`,
-    standalone: true,
-    imports: [MatButtonModule, RouterLink, MatIconModule, NgIf, MatTableModule, AsyncPipe]
 })
 export class MatchListComponent {
 	public matchService = inject(MatchService);
 
-	public displayedColumns: Array<string> = [
-		"id",
-		"matchup",
-		"score",
-	];
+	public displayedColumns: Array<string> = ["id", "matchup", "score"];
 
 	public matchList$: Observable<Array<Match>> = this.matchService.matchArray$;
 

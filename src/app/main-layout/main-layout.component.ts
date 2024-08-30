@@ -6,6 +6,15 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 
 @Component({
 	selector: "app-main-layout",
+	standalone: true,
+	imports: [
+		MatToolbarModule,
+		CommonModule,
+		MatButtonModule,
+		RouterLink,
+		RouterLinkActive,
+		RouterOutlet,
+	],
 	template: `
 		<mat-toolbar color="primary">
 			<nav>
@@ -15,13 +24,14 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 					[routerLink]="link.url"
 					[routerLinkActive]="'active'"
 					[routerLinkActiveOptions]="{ exact: true }"
-					>{{ link.title }}
+				>
+					{{ link.title }}
 				</button>
 			</nav>
 		</mat-toolbar>
 
 		<section>
-			<router-outlet/>
+			<router-outlet />
 		</section>
 	`,
 	styles: `
@@ -75,28 +85,19 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 			}
 		}
 	`,
-	standalone: true,
-	imports: [
-		MatToolbarModule,
-		CommonModule,
-		MatButtonModule,
-		RouterLink,
-		RouterLinkActive,
-		RouterOutlet,
-	],
 })
 export class MainLayoutComponent {
 	public readonly navigationLinks: Array<{
 		url: string;
 		title: string;
 	}> = [
-			{
-				url: "",
-				title: "Matches",
-			},
-			{
-				url: "players",
-				title: "Players",
-			},
-		];
+		{
+			url: "",
+			title: "Matches",
+		},
+		{
+			url: "players",
+			title: "Players",
+		},
+	];
 }
