@@ -7,9 +7,17 @@ body {
 	transition: all 300ms ease;
 	background: LightGrey;
 }
+
 span.spacer {
 	flex: auto;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
